@@ -107,7 +107,7 @@ async function prepareTerraform(ctx: MiddlewareContext) {
   const tagVar = tfg.variable('tag', {}, tag);
 
   const resApi = tfg.resource('aws_api_gateway_rest_api', '_', {
-    name: `${name}-${envVar}`,
+    name: `${name}-$\{var.${envVar.name}}`,
     body: schemaJson,
     endpoint_configuration: {
       types: list('REGIONAL'),
