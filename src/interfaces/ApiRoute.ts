@@ -1,5 +1,5 @@
 import { KnownMethods } from '../constants/KnownMethods';
-import { RouteModule } from './RouteModule';
+import { Mod } from './Mod';
 
 export interface ApiRoute {
   id: string;
@@ -8,5 +8,5 @@ export interface ApiRoute {
   route: string;
   method: KnownMethods;
   params: string[];
-  module: RouteModule;
+  module: Mod;
 }

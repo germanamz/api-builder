@@ -2,6 +2,7 @@ import { reduce } from 'bluebird';
 
 import { KnownMethods } from './constants/KnownMethods';
 import { prepareToUseHooks } from './dispatch';
+import { ApiConfig } from './interfaces/ApiConfig';
 import { ApiRoute } from './interfaces/ApiRoute';
 import { Router } from './interfaces/Router';
 
@@ -13,6 +14,7 @@ export type MiddlewareContext = {
   paths: string[];
   schema: any;
   routers: Router[];
+  api: ApiConfig;
   terraform: {
     tf: string;
     tfvars?: string;

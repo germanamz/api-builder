@@ -6,7 +6,7 @@ import { Router } from '../interfaces/Router';
 import { MiddlewareContext } from '../registry';
 
 async function getOpenApiSchema(ctx: MiddlewareContext) {
-  const { packageJson, paths: ctxPaths, routes, routers } = ctx;
+  const { packageJson, paths: ctxPaths, routes, routers, api } = ctx;
   const paths: any = ctxPaths.reduce((pathsAcc: any, path: string) => {
     const routeMethods = Object.keys(routes[path]) as KnownMethods[];
     const methodsDef: any = routeMethods.reduce(
@@ -57,7 +57,7 @@ async function getOpenApiSchema(ctx: MiddlewareContext) {
     'x-amazon-apigateway-request-validator': 'all',
     paths,
     components: {
-      schemas: {},
+      schemas: api.schemas,
     },
   };
 

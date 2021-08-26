@@ -2,7 +2,7 @@ import { basename, dirname, extname, join } from 'path';
 
 import { KnownMethods, KnownMethodsList } from '../constants/KnownMethods';
 import { ApiRoute } from '../interfaces/ApiRoute';
-import getRouteModule from '../webpack/getRouteModule';
+import loadModule from '../webpack/loadModule';
 
 async function prepareRoute(path: string): Promise<ApiRoute> {
   const params = path.match(/{[\w]+}/g) || [];
@@ -22,7 +22,7 @@ async function prepareRoute(path: string): Promise<ApiRoute> {
     .replace(/\.[jt]s$/g, '')
     .replace(/\.$/g, '-')
     .replace(/[{}]/g, '');
-  const module = await getRouteModule(absPath, id);
+  const module = await loadModule(absPath, id);
 
   return {
     id,

@@ -12,8 +12,8 @@ async function getAwsConfig(ctx: MiddlewareContext) {
     return { aws: config };
   }
   config = {
-    region: ctx.packageJson.api.region,
-    accountId: ctx.packageJson.api.accountId,
+    region: ctx.api.region,
+    accountId: ctx.api.accountId,
   };
 
   return { aws: config };

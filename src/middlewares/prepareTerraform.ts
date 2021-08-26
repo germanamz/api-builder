@@ -14,13 +14,11 @@ const generateRouterTf =
     deploymentBucket: Record<string, any>
   ) =>
   (router: Router) => {
-    const { lambdaName, artifact } = router;
+    const { lambdaName, artifact, basename } = router;
     const {
-      packageJson: {
-        api: { name },
-      },
+      api: { name },
     } = ctx;
-    const role = tfg.resource('aws_iam_role', lambdaName, {
+    const role = tfg.resource('aws_iam_role', basename, {
       name: router.lambdaName,
       assume_role_policy: JSON.stringify({
         Version: '2012-10-17',
@@ -36,7 +34,7 @@ const generateRouterTf =
       }),
     });
 
-    tfg.resource('aws_iam_role_policy', lambdaName, {
+    tfg.resource('aws_iam_role_policy', basename, {
       name: router.lambdaName,
       role: role.id,
       policy: JSON.stringify({
@@ -56,26 +54,26 @@ const generateRouterTf =
       }),
     });
 
-    tfg.resource('aws_cloudwatch_log_group', lambdaName, {
+    tfg.resource('aws_cloudwatch_log_group', basename, {
       name: `/aws/lambda/${lambdaName}`,
       retention_in_days: 14,
     });
 
-    const artifactObject = tfg.data('aws_s3_bucket_object', lambdaName, {
+    const artifactObject = tfg.data('aws_s3_bucket_object', basename, {
       bucket: deploymentBucket,
       key: `${name}/${artifact}.zip`,
     });
 
     const checksumObject = tfg.data(
       'aws_s3_bucket_object',
-      `${lambdaName}-checksum`,
+      `${basename}-checksum`,
       {
         bucket: deploymentBucket,
         key: `${name}/${artifact}.zip.checksum`,
       }
     );
 
-    tfg.resource('aws_lambda_function', lambdaName, {
+    tfg.resource('aws_lambda_function', basename, {
       function_name: lambdaName,
       handler: 'index.handler',
       role: role.attr('arn'),
@@ -86,7 +84,7 @@ const generateRouterTf =
       publish: true,
     });
 
-    tfg.resource('aws_lambda_permission', lambdaName, {
+    tfg.resource('aws_lambda_permission', basename, {
       statement_id: 'AllowExecutionFromAPIGw',
       action: 'lambda:InvokeFunction',
       function_name: lambdaName,
@@ -96,9 +94,9 @@ const generateRouterTf =
   };
 
 async function prepareTerraform(ctx: MiddlewareContext) {
-  const { argv, packageJson, schema, routers } = ctx;
+  const { argv, api, schema, routers } = ctx;
   const { env = 'dev' } = argv;
-  const { name, stage = 'live' } = packageJson.api || {};
+  const { name, stage = 'live' } = api;
   const schemaJson = JSON.stringify(schema);
   const tfg = new TerraformGenerator();
   const deploymentBucket = tfg.variable('deploymentBucket');

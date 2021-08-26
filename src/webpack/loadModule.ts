@@ -1,6 +1,7 @@
+import { Mod } from '../interfaces/Mod';
 import wpBuild, { outfs } from './wpBuild';
 
-async function getRouteModule(path: string, id: string) {
+async function loadModule(path: string, id: string): Promise<Mod> {
   const { absPath } = await wpBuild(path, id);
   const fileContent = await outfs.promises.readFile(absPath);
   // eslint-disable-next-line @typescript-eslint/no-implied-eval
@@ -15,4 +16,4 @@ async function getRouteModule(path: string, id: string) {
   };
 }
 
-export default getRouteModule;
+export default loadModule;
