@@ -17,7 +17,7 @@ import wpBuild, { outfs } from '../webpack/wpBuild';
 const pipe = promisify(pipeline);
 
 async function bundleRouters(ctx: MiddlewareContext) {
-  const { paths, routes, packageJson, argv } = ctx;
+  const { paths, routes, argv, api } = ctx;
   const tempDir = await join(process.cwd(), 'temp');
   const outputPath = join(process.cwd(), 'dist');
   let routers = await mapSeries(paths, async (path) => {
@@ -71,10 +71,10 @@ export async function handler(event: { httpMethod: string }) {
   await ensureDir(outputPath);
   routers = await mapSeries(routers, async (router) => {
     const archive = archiver('zip', { zlib: { level: 9 } });
-    const lambdaName = `${packageJson.api?.name || 'api'}-${router.basename}-${
+    const lambdaName = `${api.name || 'api'}-${router.basename}-${
       argv.env || 'dev'
     }`;
-    const artifact = `${lambdaName}-${argv.version || 'dev'}`;
+    const artifact = `${lambdaName}-${argv.tag || 'dev'}`;
     const zipFilePath = join(outputPath, `${artifact}.zip`);
     const outZip = createWriteStream(zipFilePath);
 

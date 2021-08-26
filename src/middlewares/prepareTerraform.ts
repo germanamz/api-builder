@@ -11,15 +11,18 @@ const generateRouterTf =
     tfg: TerraformGenerator,
     ctx: MiddlewareContext,
     api: Resource,
-    deploymentBucket: Record<string, any>
+    deploymentBucket: Record<string, any>,
+    env: Record<string, any>,
+    tag: Record<string, any>
   ) =>
   (router: Router) => {
-    const { lambdaName, artifact, basename } = router;
+    const { basename } = router;
     const {
       api: { name },
     } = ctx;
+    const varLambdaName = `${name}-${basename}-$\{var.${env.name}}`;
     const role = tfg.resource('aws_iam_role', basename, {
-      name: router.lambdaName,
+      name: varLambdaName,
       assume_role_policy: JSON.stringify({
         Version: '2012-10-17',
         Statement: [
@@ -35,7 +38,7 @@ const generateRouterTf =
     });
 
     tfg.resource('aws_iam_role_policy', basename, {
-      name: router.lambdaName,
+      name: varLambdaName,
       role: role.id,
       policy: JSON.stringify({
         Version: '2012-10-17',
@@ -55,13 +58,13 @@ const generateRouterTf =
     });
 
     tfg.resource('aws_cloudwatch_log_group', basename, {
-      name: `/aws/lambda/${lambdaName}`,
+      name: `/aws/lambda/${varLambdaName}`,
       retention_in_days: 14,
     });
 
     const artifactObject = tfg.data('aws_s3_bucket_object', basename, {
       bucket: deploymentBucket,
-      key: `${name}/${artifact}.zip`,
+      key: `${name}/${varLambdaName}-$\{var.${tag.name}}.zip`,
     });
 
     const checksumObject = tfg.data(
@@ -69,12 +72,12 @@ const generateRouterTf =
       `${basename}-checksum`,
       {
         bucket: deploymentBucket,
-        key: `${name}/${artifact}.zip.checksum`,
+        key: `${name}/${varLambdaName}-$\{var.${tag.name}}.zip.checksum`,
       }
     );
 
     tfg.resource('aws_lambda_function', basename, {
-      function_name: lambdaName,
+      function_name: varLambdaName,
       handler: 'index.handler',
       role: role.attr('arn'),
       runtime: 'nodejs14.x',
@@ -87,22 +90,24 @@ const generateRouterTf =
     tfg.resource('aws_lambda_permission', basename, {
       statement_id: 'AllowExecutionFromAPIGw',
       action: 'lambda:InvokeFunction',
-      function_name: lambdaName,
+      function_name: varLambdaName,
       principal: 'apigateway.amazonaws.com',
-      source_arn: `${api.attr('execution_arn')}/*/*/*`,
+      source_arn: `${api.attr('execution_arn')}*/*/*`,
     });
   };
 
 async function prepareTerraform(ctx: MiddlewareContext) {
   const { argv, api, schema, routers } = ctx;
-  const { env = 'dev' } = argv;
+  const { env = 'dev', tag = 'dev' } = argv;
   const { name, stage = 'live' } = api;
   const schemaJson = JSON.stringify(schema);
   const tfg = new TerraformGenerator();
-  const deploymentBucket = tfg.variable('deploymentBucket');
+  const deploymentBucketVar = tfg.variable('deploymentBucket');
+  const envVar = tfg.variable('env', {}, env);
+  const tagVar = tfg.variable('tag', {}, tag);
 
   const resApi = tfg.resource('aws_api_gateway_rest_api', '_', {
-    name: `${name}-${env}`,
+    name: `${name}-${envVar}`,
     body: schemaJson,
     endpoint_configuration: {
       types: list('REGIONAL'),
@@ -126,7 +131,14 @@ async function prepareTerraform(ctx: MiddlewareContext) {
   });
 
   routers.forEach(
-    generateRouterTf(tfg, ctx, resApiDeployment, deploymentBucket)
+    generateRouterTf(
+      tfg,
+      ctx,
+      resApiDeployment,
+      deploymentBucketVar,
+      envVar,
+      tagVar
+    )
   );
 
   const terraform = tfg.generate();

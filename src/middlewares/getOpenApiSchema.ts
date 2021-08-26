@@ -45,7 +45,7 @@ async function getOpenApiSchema(ctx: MiddlewareContext) {
   const openApiSchema = {
     openapi: '3.0.1',
     info: {
-      title: packageJson.name,
+      title: api.name,
       version: packageJson.version,
     },
     'x-amazon-apigateway-request-validators': {

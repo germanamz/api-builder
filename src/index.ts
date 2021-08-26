@@ -1,4 +1,5 @@
 import build from './actions/build';
+import { ApiConfig } from './interfaces/ApiConfig';
 import bundleRouters from './middlewares/bundleRouters';
 import getAwsConfig from './middlewares/getAwsConfig';
 import getOpenApiSchema from './middlewares/getOpenApiSchema';
@@ -20,5 +21,5 @@ const commonMiddlewares = [
 
 registry.register('build', ...commonMiddlewares, build);
 
-export { build };
+export { ApiConfig, build };
 export default registry;
