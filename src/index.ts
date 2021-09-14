@@ -18,7 +18,9 @@ export type {
 } from './interfaces/ActionConfig';
 export type { ApiGatewayProxyEvent } from './interfaces/ApiGatewayProxyEvent';
 export type { ApiGatewayProxyResponse } from './interfaces/ApiGatewayProxyResponse';
+export type { GetActionConfigFn } from './interfaces/GetActionConfigFn';
 export type { Handler } from './interfaces/Handler';
+export type { PolicyStatementsFn } from './interfaces/PolicyStatementsFn';
 export type { Statement } from './interfaces/Statement';
 
 const commonMiddlewares = [
