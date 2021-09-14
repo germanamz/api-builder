@@ -9,6 +9,18 @@ import prepareRoutes from './middlewares/prepareRoutes';
 import prepareTerraform from './middlewares/prepareTerraform';
 import registry from './registry';
 
+export type {
+  ActionConfig,
+  MediaType,
+  Parameter,
+  RefObj,
+  RequestBody,
+} from './interfaces/ActionConfig';
+export type { ApiGatewayProxyEvent } from './interfaces/ApiGatewayProxyEvent';
+export type { ApiGatewayProxyResponse } from './interfaces/ApiGatewayProxyResponse';
+export type { Handler } from './interfaces/Handler';
+export type { Statement } from './interfaces/Statement';
+
 const commonMiddlewares = [
   getPackageJsonData,
   loadApiConfig,
