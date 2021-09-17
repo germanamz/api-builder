@@ -1,8 +1,9 @@
-import { Errno, KnownErrors } from '@feprisa/errno';
+import type { ErrnoErrorCodes } from '@feprisa/errno';
+import { Errno } from '@feprisa/errno';
 
 import { ApiGatewayProxyResponse } from './ApiGatewayProxyResponse';
 
-type ApiError<KC = typeof KnownErrors[keyof typeof KnownErrors]> = Errno<
+type ApiError<KC = ErrnoErrorCodes> = Errno<
   KC,
   Omit<ApiGatewayProxyResponse, 'body'>
 >;

@@ -885,10 +885,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@feprisa/errno@^1.6.0":
-  version "1.6.0"
-  resolved "https://feprisa-181459816757.d.codeartifact.us-east-1.amazonaws.com:443/npm/internal/@feprisa/errno/-/errno-1.6.0.tgz#89da338b9efe2c52c4d20bfe94df3625cc3abbca"
-  integrity sha512-vnNZPLNLBxCCu0ARE7x/KlxP9Xh7IHoIC07wkmcbFfMv5Omo9E4WCMo2rEvw1mqecy6V2bcVB+PoUIZlXmUocw==
+"@feprisa/errno@^2.1.0":
+  version "2.1.0"
+  resolved "https://feprisa-181459816757.d.codeartifact.us-east-1.amazonaws.com:443/npm/internal/@feprisa/errno/-/errno-2.1.0.tgz#39b0995267cb690a676c026f5cf811b523a17107"
+  integrity sha512-tef3RQANiEYEIPMxY2pHTZCTzHjvQ+JY8+fPLEhkPYCc30JzfGXf1VFMelZpQlN+qSEMu6SCcCHgN4anRdRUvg==
 
 "@feprisa/eslint-config-base@^1.2.0":
   version "1.2.0"

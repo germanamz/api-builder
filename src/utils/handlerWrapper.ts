@@ -1,4 +1,4 @@
-import { Errno, KnownErrors } from '@feprisa/errno';
+import { Errno, ErrnoErrors, genError } from '@feprisa/errno';
 
 import ApiError from '../interfaces/ApiError';
 import { ApiGatewayProxyEvent } from '../interfaces/ApiGatewayProxyEvent';
@@ -31,9 +31,7 @@ const handlerWrapper =
       console.error(e);
 
       return {
-        body: JSON.stringify({
-          code: KnownErrors.UNKNOWN,
-        }),
+        body: JSON.stringify(genError(ErrnoErrors.UNKNOWN)),
         statusCode: 500,
         headers: {},
         isBase64Encoded: false,
