@@ -25,7 +25,7 @@
   },
   "keywords": [],
   "author": "Feprisa <tech@feprisa.com>",
-  "license": "UNLICESED",
+  "license": "Unlicense",
   "dependencies": {
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-typescript": "^7.15.0",
