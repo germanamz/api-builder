@@ -17,7 +17,7 @@ import genApiErrorFactory, { GenApiError } from './genApiError';
 const handlerWrapper = <KC extends keyof any = ErrnoErrorCodes>(
   errorMessages: KnownErrorsMessages<KC>,
   errorStatuses: ApiErrorStatuses<KC>,
-  handler: Handler<HandlerContext<GenApiError<KC>>, any>
+  handler: Handler<GenApiError<KC>, any>
 ) => {
   const genApiError = genApiErrorFactory<KC>(errorMessages, errorStatuses);
 
