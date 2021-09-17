@@ -8,6 +8,7 @@ import loadApiConfig from './middlewares/loadApiConfig';
 import prepareRoutes from './middlewares/prepareRoutes';
 import prepareTerraform from './middlewares/prepareTerraform';
 import registry from './registry';
+import handlerWrapper from './utils/handlerWrapper';
 
 export type {
   ActionConfig,
@@ -16,6 +17,7 @@ export type {
   RefObj,
   RequestBody,
 } from './interfaces/ActionConfig';
+export type { default as ApiError } from './interfaces/ApiError';
 export type { ApiGatewayProxyEvent } from './interfaces/ApiGatewayProxyEvent';
 export type { ApiGatewayProxyResponse } from './interfaces/ApiGatewayProxyResponse';
 export type { GetActionConfigFn } from './interfaces/GetActionConfigFn';
@@ -35,5 +37,5 @@ const commonMiddlewares = [
 
 registry.register('build', ...commonMiddlewares, build);
 
-export { ApiConfig, build };
+export { ApiConfig, build, handlerWrapper };
 export default registry;
