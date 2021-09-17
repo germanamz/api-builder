@@ -1,15 +1,35 @@
-import { Errno, ErrnoErrors, genError } from '@feprisa/errno';
+import {
+  Errno,
+  ErrnoErrorCodes,
+  ErrnoErrors,
+  genError,
+  KnownErrorsMessages,
+} from '@feprisa/errno';
 
 import ApiError from '../interfaces/ApiError';
+import ApiErrorStatuses from '../interfaces/ApiErrorStatuses';
 import { ApiGatewayProxyEvent } from '../interfaces/ApiGatewayProxyEvent';
 import { ApiGatewayProxyResponse } from '../interfaces/ApiGatewayProxyResponse';
 import { Handler } from '../interfaces/Handler';
+import HandlerContext from '../interfaces/HandlerContext';
+import genApiErrorFactory, { GenApiError } from './genApiError';
 
-const handlerWrapper =
-  (handler: Handler<any>) =>
-  async (event: ApiGatewayProxyEvent): Promise<ApiGatewayProxyResponse> => {
+const handlerWrapper = <KC extends keyof any = ErrnoErrorCodes>(
+  errorMessages: KnownErrorsMessages<KC>,
+  errorStatuses: ApiErrorStatuses<KC>,
+  handler: Handler<HandlerContext<GenApiError<KC>>, any>
+) => {
+  const genApiError = genApiErrorFactory<KC>(errorMessages, errorStatuses);
+
+  return async (
+    event: ApiGatewayProxyEvent,
+    ctx: HandlerContext<typeof genApiError>
+  ): Promise<ApiGatewayProxyResponse> => {
     try {
-      const res = await handler(event);
+      const res = await handler(event, {
+        ...ctx,
+        genApiError,
+      });
       return {
         isBase64Encoded: false,
         headers: {},
@@ -38,5 +58,6 @@ const handlerWrapper =
       };
     }
   };
+};
 
 export default handlerWrapper;

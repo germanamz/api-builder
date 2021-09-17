@@ -14,7 +14,8 @@
   "scripts": {
     "build:cjs": "tsc -p tsconfig.json",
     "build:es": "tsc -p tsconfig.es.json",
-    "build": "npm run build:cjs && npm run build:es",
+    "clean": "rm -rf dist",
+    "build": "yarn run clean && yarn run build:cjs && yarn run build:es",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts"
   },
@@ -28,7 +29,7 @@
   "dependencies": {
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-typescript": "^7.15.0",
-    "@feprisa/errno": "^2.1.0",
+    "@feprisa/errno": "^2.2.0",
     "archiver": "^5.3.0",
     "babel-loader": "^8.2.2",
     "bluebird": "^3.7.2",
