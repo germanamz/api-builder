@@ -6,12 +6,12 @@ import {
   KnownErrorsMessages,
 } from '@feprisa/errno';
 
-import ApiError from '../interfaces/ApiError';
-import ApiErrorStatuses from '../interfaces/ApiErrorStatuses';
-import { ApiGatewayProxyEvent } from '../interfaces/ApiGatewayProxyEvent';
-import { ApiGatewayProxyResponse } from '../interfaces/ApiGatewayProxyResponse';
-import { Handler } from '../interfaces/Handler';
-import HandlerContext from '../interfaces/HandlerContext';
+import ApiError from '../types/ApiError';
+import ApiErrorStatuses from '../types/ApiErrorStatuses';
+import { ApiGatewayProxyEvent } from '../types/ApiGatewayProxyEvent';
+import { ApiGatewayProxyResponse } from '../types/ApiGatewayProxyResponse';
+import { Handler } from '../types/Handler';
+import HandlerContext from '../types/HandlerContext';
 import genApiErrorFactory, { GenApiError } from './genApiError';
 
 const handlerWrapper = <KC extends keyof any = ErrnoErrorCodes>(

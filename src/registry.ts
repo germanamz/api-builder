@@ -1,57 +1,46 @@
+import { Errno } from '@feprisa/errno';
 import { reduce } from 'bluebird';
 
-import { KnownMethods } from './constants/KnownMethods';
-import { prepareToUseHooks } from './dispatch';
-import { ApiConfig } from './interfaces/ApiConfig';
-import { ApiRoute } from './interfaces/ApiRoute';
-import { Router } from './interfaces/Router';
-
-export type MiddlewareContext = {
-  argv: any;
-  packageJson: any;
-  aws: { region: string; accountId: string };
-  routes: { [path: string]: { [method in KnownMethods]: ApiRoute } };
-  paths: string[];
-  schema: any;
-  routers: Router[];
-  api: ApiConfig;
-  terraform: {
-    tf: string;
-    tfvars?: string;
-  };
-};
-type MiddlewareFn = (ctx: MiddlewareContext) => Promise<any>;
-type MiddlewarePipeline = Array<MiddlewareFn>;
-type ActionRegistryType = { [action: string]: MiddlewarePipeline };
+import Context from './types/Context';
+import Middleware from './types/Middleware';
 
 export interface RegistryApi {
-  register: (name: string, ...pipeline: MiddlewareFn[]) => void;
+  register: (name: string, ...pipeline: Middleware<any, any>[]) => void;
   execute: (actionToExecute: string, argv: any) => Promise<any>;
 }
 
 export const registryFactory = (): RegistryApi => {
-  const registry: ActionRegistryType = {};
+  const registry: { [name: string]: Middleware<any, any>[] } = {};
 
-  const register = (name: string, ...pipeline: MiddlewarePipeline) => {
+  const register = (name: string, ...pipeline: Middleware<any, any>[]) => {
     registry[name] = pipeline;
   };
 
-  const execute = async (actionToExecute: string, argv: any) => {
+  const execute = async (
+    actionToExecute: string,
+    argv: any
+  ): Promise<void | Context> => {
     if (!registry[actionToExecute]) {
       throw new Error(`No action ${actionToExecute} found`);
     }
     const pipeline = registry[actionToExecute];
 
-    const res = await reduce<MiddlewareFn, any>(
-      pipeline,
-      async (ctx, middleware) =>
-        prepareToUseHooks({ ...ctx, ...(await middleware(ctx)) }),
-      prepareToUseHooks({ argv })
-    );
-
-    prepareToUseHooks(null);
-
-    return res;
+    try {
+      return await reduce<Middleware<any, any>, any>(
+        pipeline,
+        async (ctx, middleware) => ({
+          ...ctx,
+          ...((await middleware(ctx, argv)) || {}),
+        }),
+        {}
+      );
+    } catch (e) {
+      if (e instanceof Errno) {
+        console.error(e);
+        process.exit(1);
+      }
+      throw e;
+    }
   };
 
   return {

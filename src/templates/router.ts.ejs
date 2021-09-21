@@ -1,0 +1,16 @@
+<% methods.forEach((method) => {%>
+import method<%-method%> from './<%-method%>';
+<% });%>
+export const handler = (event: any, ctx: any) => {
+    const { httpMethod } = event;
+    switch (httpMethod) {
+        <% methods.forEach((method) => {%>
+        case '<%-method%>':
+            return method<%-method%>(event, ctx);
+        <% });%>
+    }
+    return {
+        statusCode: 500,
+        body: 'Server error',
+    };
+};

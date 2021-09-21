@@ -1,8 +1,8 @@
 import type { KnownErrorsMessages } from '@feprisa/errno';
 import { Errno, ErrnoErrorCodes, genErrorFactory } from '@feprisa/errno';
 
-import ApiErrorStatuses from '../interfaces/ApiErrorStatuses';
-import { ApiGatewayProxyResponse } from '../interfaces/ApiGatewayProxyResponse';
+import ApiErrorStatuses from '../types/ApiErrorStatuses';
+import { ApiGatewayProxyResponse } from '../types/ApiGatewayProxyResponse';
 
 export type GenApiError<KC extends keyof any = ErrnoErrorCodes> = (
   code: KC,
