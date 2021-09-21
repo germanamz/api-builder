@@ -18,7 +18,7 @@ const generateRouterTf =
   (path: string) => {
     const { api, routes } = ctx;
     const { name: basename, config } = routes[path];
-    const lambdaName = `${api.name}-${basename}-${process.env.NODE_ENV}`;
+    const lambdaName = `${api.name}-${basename}`;
     const role = tfg.resource('aws_iam_role', basename, {
       name: lambdaName,
       assume_role_policy: JSON.stringify({
