@@ -18,7 +18,8 @@ const generateRouterTf =
   (path: string) => {
     const { api, routes } = ctx;
     const { name: basename, config } = routes[path];
-    const lambdaName = `${api.name}-${basename}`;
+    const simpleLambdaName = `${api.name}-${basename}`;
+    const lambdaName = `${simpleLambdaName}-${process.env.NODE_ENV}`;
     const role = tfg.resource('aws_iam_role', basename, {
       name: lambdaName,
       assume_role_policy: JSON.stringify({
@@ -62,7 +63,7 @@ const generateRouterTf =
 
     const artifactObject = tfg.data('aws_s3_bucket_object', basename, {
       bucket: api.deploymentBucket,
-      key: `${api.name}/${lambdaName}-${argv.version}.zip`,
+      key: `${api.name}/${simpleLambdaName}-${argv.version}.zip`,
     });
 
     const checksumObject = tfg.data(
@@ -70,7 +71,7 @@ const generateRouterTf =
       `${basename}-checksum`,
       {
         bucket: api.deploymentBucket,
-        key: `${api.name}/${lambdaName}-${argv.version}.zip.checksum`,
+        key: `${api.name}/${simpleLambdaName}-${argv.version}.zip.checksum`,
       }
     );
 
