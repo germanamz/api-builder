@@ -1,4 +1,3 @@
-import { Errno } from '@feprisa/errno';
 import { reduce } from 'bluebird';
 
 import Context from './types/Context';
@@ -25,8 +24,9 @@ export const registryFactory = (): RegistryApi => {
     }
     const pipeline = registry[actionToExecute];
 
+    let res;
     try {
-      return await reduce<Middleware<any, any>, any>(
+      res = await reduce<Middleware<any, any>, any>(
         pipeline,
         async (ctx, middleware) => ({
           ...ctx,
@@ -35,12 +35,10 @@ export const registryFactory = (): RegistryApi => {
         {}
       );
     } catch (e) {
-      if (e instanceof Errno) {
-        console.error(e);
-        process.exit(1);
-      }
-      throw e;
+      console.error(e);
+      process.exit(1);
     }
+    return res;
   };
 
   return {

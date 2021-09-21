@@ -1,5 +1,6 @@
 import buildOpenApi from './middlewares/buildOpenApi';
 import buildRouters from './middlewares/buildRouters';
+import buildTerraform from './middlewares/buildTerraform';
 import loadApiConfig from './middlewares/loadApiConfig';
 import loadMemFs from './middlewares/loadMemFs';
 import loadPackage from './middlewares/loadPackage';
@@ -28,7 +29,14 @@ const commonMiddlewares = [loadPackage, loadApiConfig, loadMemFs, loadRoutes];
 
 registry.register('build-routers', ...commonMiddlewares, buildRouters);
 registry.register('build-openapi', ...commonMiddlewares, buildOpenApi);
-registry.register('build', ...commonMiddlewares, buildRouters, buildOpenApi);
+registry.register('build-terraform', ...commonMiddlewares, buildTerraform);
+registry.register(
+  'build',
+  ...commonMiddlewares,
+  buildRouters,
+  buildOpenApi,
+  buildTerraform
+);
 
 export { ApiConfig, genApiError, handlerWrapper };
 export default registry;

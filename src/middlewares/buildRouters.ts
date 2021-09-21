@@ -62,7 +62,10 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
     }
 
     const lambdaArchive = archiver('zip');
-    const zipFilePath = resolve(outdir, `routers/${name}-${version}.zip`);
+    const zipFilePath = resolve(
+      outdir,
+      `routers/${api.name}-${name}-${version}.zip`
+    );
 
     lambdaArchive.pipe(fs.createWriteStream(zipFilePath));
     lambdaArchive.append(outFs.createReadStream('/build/index.js'), {
@@ -80,7 +83,7 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
     );
   }
 
-  const dependenciesPath = join(outdir, `deps-${version}.zip`);
+  const dependenciesPath = join(outdir, `${api.name}-deps-${version}.zip`);
   const dependenciesArchive = archiver('zip');
 
   dependenciesArchive.pipe(fs.createWriteStream(dependenciesPath));
