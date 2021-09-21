@@ -111,11 +111,11 @@ const buildTerraform: Middleware<keyof Context, null> = async (ctx, argv) => {
   });
 
   tfg.provider('aws', {
-    default_tags: map({
+    default_tags: {
       tags: map({
         App: api.name,
       }),
-    }),
+    },
   });
 
   tfg.backend('s3', {
