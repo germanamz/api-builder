@@ -3,7 +3,7 @@ import { createHash } from 'crypto';
 import dependencyTree from 'dependency-tree';
 import ejs from 'ejs';
 import * as fs from 'fs';
-import { copy, ensureDir, readFile } from 'fs-extra';
+import { copy, ensureDir, outputFile, readFile } from 'fs-extra';
 import { builtinModules } from 'module';
 import { join, resolve } from 'path';
 import { pipeline } from 'stream';
@@ -18,6 +18,7 @@ import routerConfig from '../webpack/config/router.config';
 export type BuildRoutersArgv = CommonArgv & {
   routesOutput?: string;
   zip?: boolean;
+  docker?: boolean;
 };
 
 const pipe = promisify(pipeline);
@@ -26,10 +27,13 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
   ctx,
   argv
 ) => {
-  const { routesOutput, version, zip } = argv;
+  const { routesOutput, version, zip, docker } = argv;
   const { routes, outFs, inFs, ufs, api } = ctx;
-  const template = ejs.compile(
+  const routerTemplate = ejs.compile(
     await readFile(resolve(__dirname, '../templates/router.ts.ejs'), 'utf8')
+  );
+  const dockerTemplate = ejs.compile(
+    await readFile(resolve(__dirname, '../templates/docker.ejs'), 'utf8')
   );
   const outdir = resolve(process.cwd(), routesOutput || api.routesOutput);
   const routersOutdir = join(outdir, 'routers');
@@ -42,7 +46,7 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
     const entry = join(entryDirPath, 'index.ts');
 
     await inFs.promises.mkdir(entryDirPath, { recursive: true });
-    inFs.writeFileSync(entry, template(routes[endpoint]));
+    inFs.writeFileSync(entry, routerTemplate(routes[endpoint]));
 
     const config = routerConfig({
       output: '/build',
@@ -73,6 +77,17 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
       outFs.createReadStream('/build/index.js'),
       fs.createWriteStream(artifactIndexFile)
     );
+
+    if (docker) {
+      // If docker options is present dont zip neither copy dependencies
+      await pipe(
+        fs.createReadStream(join(process.cwd(), 'package.json')),
+        fs.createWriteStream(join(artifactDir, 'package.json'))
+      );
+      await outputFile(join(artifactDir, 'Dockerfile'), dockerTemplate);
+
+      return;
+    }
 
     const deps = dependencyTree.toList({
       filename: artifactIndexFile,
