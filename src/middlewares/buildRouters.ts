@@ -86,7 +86,7 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
       );
       await outputFile(join(artifactDir, 'Dockerfile'), dockerTemplate());
 
-      return;
+      continue;
     }
 
     const deps = dependencyTree.toList({
