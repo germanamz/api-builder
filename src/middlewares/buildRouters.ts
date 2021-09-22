@@ -84,7 +84,7 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
         fs.createReadStream(join(process.cwd(), 'package.json')),
         fs.createWriteStream(join(artifactDir, 'package.json'))
       );
-      await outputFile(join(artifactDir, 'Dockerfile'), dockerTemplate);
+      await outputFile(join(artifactDir, 'Dockerfile'), dockerTemplate());
 
       return;
     }
