@@ -108,7 +108,7 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
     }
 
     if (zip) {
-      const archivePath = join(outdir, `${artifactName}.zip`);
+      const archivePath = join(outdir, 'zip', `${artifactName}.zip`);
       const archiveChecksumPath = `${archivePath}.checksum`;
       const archive = archiver('zip');
 
