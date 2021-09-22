@@ -108,10 +108,12 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
     }
 
     if (zip) {
-      const archivePath = join(outdir, 'zip', `${artifactName}.zip`);
+      const zipOutDir = join(outdir, 'zip');
+      const archivePath = join(zipOutDir, `${artifactName}.zip`);
       const archiveChecksumPath = `${archivePath}.checksum`;
       const archive = archiver('zip');
 
+      await ensureDir(zipOutDir);
       archive.pipe(fs.createWriteStream(archivePath));
       archive.directory(artifactDir, false);
       await archive.finalize();
