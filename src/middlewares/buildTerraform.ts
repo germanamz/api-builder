@@ -60,28 +60,47 @@ const generateRouterTf =
       retention_in_days: 14,
     });
 
-    const artifactObject = tfg.data('aws_s3_bucket_object', basename, {
-      bucket: api.deploymentBucket,
-      key: `${api.name}/${simpleLambdaName}-${argv.version}.zip`,
-    });
-
-    const checksumObject = tfg.data(
-      'aws_s3_bucket_object',
-      `${basename}-checksum`,
-      {
+    let lambdaConfig;
+    if (argv.docker) {
+      const ercRepo = tfg.resource('aws_ecr_repository', basename, {
+        name: simpleLambdaName,
+      });
+      const artifactImage = tfg.resource('aws_ecr_image', basename, {
+        repository_name: ercRepo.attr('name'),
+        image_tag: 'latest',
+      });
+      lambdaConfig = {
+        image_uri: `${ercRepo.attr('repository_url')}/${artifactImage.id}`,
+        package_type: 'Image',
+      };
+    } else {
+      const artifactObject = tfg.data('aws_s3_bucket_object', basename, {
         bucket: api.deploymentBucket,
-        key: `${api.name}/${simpleLambdaName}-${argv.version}.zip.checksum`,
-      }
-    );
+        key: `${api.name}/${simpleLambdaName}-${argv.version}.zip`,
+      });
+
+      const checksumObject = tfg.data(
+        'aws_s3_bucket_object',
+        `${basename}-checksum`,
+        {
+          bucket: api.deploymentBucket,
+          key: `${api.name}/${simpleLambdaName}-${argv.version}.zip.checksum`,
+        }
+      );
+      lambdaConfig = {
+        s3_bucket: api.deploymentBucket,
+        s3_key: artifactObject.attr('key'),
+        source_code_hash: checksumObject.attr('body'),
+        package_type: 'Zip',
+      };
+    }
 
     const lambda = tfg.resource('aws_lambda_function', basename, {
+      ...lambdaConfig,
       function_name: lambdaName,
       handler: 'index.handler',
       role: role.attr('arn'),
       runtime: 'nodejs14.x',
-      s3_bucket: api.deploymentBucket,
-      s3_key: artifactObject.attr('key'),
-      source_code_hash: checksumObject.attr('body'),
       publish: true,
       depends_on: list(resApi),
     });
@@ -96,7 +115,9 @@ const generateRouterTf =
     });
   };
 
-export type BuildTerraformArgv = CommonArgv & {};
+export type BuildTerraformArgv = CommonArgv & {
+  docker?: boolean;
+};
 
 const buildTerraform: Middleware<keyof Context, null> = async (ctx, argv) => {
   const { api, openapi, routes } = ctx;
