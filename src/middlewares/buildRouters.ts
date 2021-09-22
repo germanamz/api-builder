@@ -1,8 +1,10 @@
 import archiver from 'archiver';
 import { createHash } from 'crypto';
+import dependencyTree from 'dependency-tree';
 import ejs from 'ejs';
 import * as fs from 'fs';
-import { ensureDir, readFile } from 'fs-extra';
+import { copy, ensureDir, readFile } from 'fs-extra';
+import { builtinModules } from 'module';
 import { join, resolve } from 'path';
 import { pipeline } from 'stream';
 import { promisify } from 'util';
@@ -15,6 +17,7 @@ import routerConfig from '../webpack/config/router.config';
 
 export type BuildRoutersArgv = CommonArgv & {
   routesOutput?: string;
+  zip?: boolean;
 };
 
 const pipe = promisify(pipeline);
@@ -23,15 +26,15 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
   ctx,
   argv
 ) => {
-  const { routesOutput, version } = argv;
+  const { routesOutput, version, zip } = argv;
   const { routes, outFs, inFs, ufs, api } = ctx;
   const template = ejs.compile(
     await readFile(resolve(__dirname, '../templates/router.ts.ejs'), 'utf8')
   );
   const outdir = resolve(process.cwd(), routesOutput || api.routesOutput);
+  const routersOutdir = join(outdir, 'routers');
 
-  await ensureDir(outdir);
-  await ensureDir(join(outdir, 'routers'));
+  await ensureDir(routersOutdir);
 
   for await (const endpoint of Object.keys(routes)) {
     const { name } = routes[endpoint];
@@ -61,51 +64,66 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
       process.exit(1);
     }
 
-    const lambdaArchive = archiver('zip');
-    const zipFilePath = resolve(
-      outdir,
-      `routers/${api.name}-${name}-${version}.zip`
-    );
+    const artifactName = `${api.name}-${name}-${version}`;
+    const artifactDir = join(routersOutdir, artifactName);
+    const artifactIndexFile = join(artifactDir, 'index.js');
 
-    lambdaArchive.pipe(fs.createWriteStream(zipFilePath));
-    lambdaArchive.append(outFs.createReadStream('/build/index.js'), {
-      name: 'index.js',
-    });
-
-    await lambdaArchive.finalize();
-
-    const checksumFilePath = `${zipFilePath}.checksum`;
-
+    await ensureDir(artifactDir);
     await pipe(
-      fs.createReadStream(zipFilePath),
-      createHash('sha256').setEncoding('base64'),
-      fs.createWriteStream(checksumFilePath)
+      outFs.createReadStream('/build/index.js'),
+      fs.createWriteStream(artifactIndexFile)
     );
-  }
 
-  const dependenciesPath = join(outdir, `${api.name}-deps-${version}.zip`);
-  const dependenciesArchive = archiver('zip');
-
-  dependenciesArchive.pipe(fs.createWriteStream(dependenciesPath));
-
-  dependenciesArchive.directory(
-    resolve(process.cwd(), 'node_modules'),
-    'nodejs/node_modules'
-  );
-
-  if (api.externals) {
-    api.externals.forEach((externalPath) => {
-      dependenciesArchive.directory(externalPath, 'nodejs/node_modules');
+    const deps = dependencyTree.toList({
+      filename: artifactIndexFile,
+      directory: process.cwd(),
     });
+    const sourceDepsPath = join(process.cwd(), 'node_modules');
+    const artifactDepsPath = join(artifactDir, 'node_modules');
+    const copiedModules: any = {};
+
+    await ensureDir(artifactDepsPath);
+    for await (const depPath of deps) {
+      if (depPath.indexOf(sourceDepsPath) !== -1) {
+        const moduleRegex = new RegExp(
+          `${sourceDepsPath.replace(/\//g, '\\/')}\\/([@\\w-]+)`
+        );
+        const moduleMatch = depPath.match(moduleRegex);
+
+        if (moduleMatch) {
+          const [, moduleName] = moduleMatch;
+
+          if (
+            !copiedModules[moduleName] &&
+            builtinModules.indexOf(moduleName) === -1
+          ) {
+            await copy(
+              join(sourceDepsPath, moduleName),
+              join(artifactDepsPath, moduleName)
+            );
+            copiedModules[moduleName] = true;
+          }
+        }
+      }
+    }
+
+    if (zip) {
+      const archivePath = join(outdir, `${artifactName}.zip`);
+      const archiveChecksumPath = `${archivePath}.checksum`;
+      const archive = archiver('zip');
+
+      archive.pipe(fs.createWriteStream(archivePath));
+      archive.directory(artifactDir, false);
+      await archive.finalize();
+
+      const hash = createHash('sha1');
+      await pipe(
+        fs.createReadStream(archivePath),
+        hash,
+        fs.createWriteStream(archiveChecksumPath)
+      );
+    }
   }
-
-  await dependenciesArchive.finalize();
-
-  await pipe(
-    fs.createReadStream(dependenciesPath),
-    createHash('sha256').setEncoding('base64'),
-    fs.createWriteStream(`${dependenciesPath}.checksum`)
-  );
 };
 
 export default buildRouters;
