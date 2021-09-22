@@ -12,8 +12,7 @@ const generateRouterTf =
     ctx: Context,
     argv: BuildTerraformArgv,
     tfg: TerraformGenerator,
-    resApi: Resource,
-    layers: Resource
+    resApi: Resource
   ) =>
   (path: string) => {
     const { api, routes } = ctx;
@@ -75,7 +74,7 @@ const generateRouterTf =
       }
     );
 
-    tfg.resource('aws_lambda_function', basename, {
+    const lambda = tfg.resource('aws_lambda_function', basename, {
       function_name: lambdaName,
       handler: 'index.handler',
       role: role.attr('arn'),
@@ -83,8 +82,8 @@ const generateRouterTf =
       s3_bucket: api.deploymentBucket,
       s3_key: artifactObject.attr('key'),
       source_code_hash: checksumObject.attr('body'),
-      layers: list(layers.attr('arn')),
       publish: true,
+      depends_on: list(resApi),
     });
 
     tfg.resource('aws_lambda_permission', basename, {
@@ -93,6 +92,7 @@ const generateRouterTf =
       function_name: lambdaName,
       principal: 'apigateway.amazonaws.com',
       source_arn: `${resApi.attr('execution_arn')}*/*/*`,
+      depends_on: list(lambda, resApi),
     });
   };
 
@@ -141,22 +141,17 @@ const buildTerraform: Middleware<keyof Context, null> = async (ctx, argv) => {
     lifecycle: {
       create_before_destroy: true,
     },
+    depends_on: list(resApi),
   });
 
   tfg.resource('aws_api_gateway_stage', '_', {
     deployment_id: resApiDeployment.id,
     rest_api_id: resApi.id,
     stage_name: 'live',
+    depends_on: list(resApiDeployment),
   });
 
-  const layers = tfg.resource('aws_lambda_layer_version', 'deps', {
-    layer_name: `${api.name}-deps-${argv.version}`,
-    s3_bucket: api.deploymentBucket,
-    s3_key: `${api.name}/${api.name}-deps-${argv.version}.zip`,
-    compatible_runtimes: list('nodejs12.x'),
-  });
-
-  Object.keys(routes).forEach(generateRouterTf(ctx, argv, tfg, resApi, layers));
+  Object.keys(routes).forEach(generateRouterTf(ctx, argv, tfg, resApi));
 
   const outdir = resolve(process.cwd(), terraformOutput);
 
