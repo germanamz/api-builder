@@ -65,7 +65,7 @@ const generateRouterTf =
       const ercRepo = tfg.resource('aws_ecr_repository', basename, {
         name: simpleLambdaName,
       });
-      const artifactImage = tfg.resource('aws_ecr_image', basename, {
+      const artifactImage = tfg.data('aws_ecr_image', basename, {
         repository_name: ercRepo.attr('name'),
         image_tag: 'latest',
       });
