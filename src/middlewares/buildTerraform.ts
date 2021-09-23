@@ -92,15 +92,15 @@ const generateRouterTf =
         s3_key: artifactObject.attr('key'),
         source_code_hash: checksumObject.attr('body'),
         package_type: 'Zip',
+        runtime: 'nodejs14.x',
+        handler: 'index.handler',
       };
     }
 
     const lambda = tfg.resource('aws_lambda_function', basename, {
       ...lambdaConfig,
       function_name: lambdaName,
-      handler: 'index.handler',
       role: role.attr('arn'),
-      runtime: 'nodejs14.x',
       publish: true,
       depends_on: list(resApi),
     });
