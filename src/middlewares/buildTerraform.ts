@@ -96,17 +96,21 @@ const generateRouterTf =
         handler: 'index.handler',
       };
     }
-
-    const lambda = tfg.resource('aws_lambda_function', basename, {
+    const lambdaOptions: any = {
       ...lambdaConfig,
       function_name: lambdaName,
       role: role.attr('arn'),
       publish: true,
-      environment: {
-        variables: map(config?.variables || {}),
-      },
       depends_on: list(resApi),
-    });
+    };
+
+    if (config?.variables) {
+      lambdaOptions.environment = {
+        variables: map(config?.variables || {}),
+      };
+    }
+
+    const lambda = tfg.resource('aws_lambda_function', basename, lambdaOptions);
 
     tfg.resource('aws_lambda_permission', basename, {
       statement_id: 'AllowExecutionFromAPIGw',
