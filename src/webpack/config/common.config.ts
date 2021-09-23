@@ -30,6 +30,9 @@ function common({
     externalsPresets: {
       node: true,
     },
+    optimization: {
+      nodeEnv: false,
+    },
     resolve: {
       extensions: ['.ts', '.js'],
     },
