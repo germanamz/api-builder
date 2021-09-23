@@ -78,8 +78,9 @@ const generateRouterTf =
       lambdaConfig = {
         image_uri: `${ercRepo.attr('repository_url')}/${fn(
           'replace',
+          artifactImage.id,
           'sha256:',
-          artifactImage.id
+          ''
         )}`,
         package_type: 'Image',
       };
