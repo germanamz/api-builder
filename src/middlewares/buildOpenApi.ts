@@ -79,7 +79,8 @@ const buildOpenApi: Middleware<keyof Context, 'openapi', BuildOpenApiArgv> =
     const { api, package: packageJson, routes } = ctx;
     const paths: { [path: string]: { [method in SupportedHttpMethods]: any } } =
       {};
-    for (const routePath of Object.keys(routes)) {
+    for (const route of Object.keys(routes)) {
+      const routePath = `/${route}`;
       const { name, config } = routes[routePath];
       paths[routePath] = paths[routePath] || { OPTIONS: getCors() };
       for (const method of routes[routePath].methods) {
