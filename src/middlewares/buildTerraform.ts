@@ -121,7 +121,7 @@ const generateRouterTf =
       action: 'lambda:InvokeFunction',
       function_name: lambdaName,
       principal: 'apigateway.amazonaws.com',
-      source_arn: `${resApi.attr('execution_arn')}*/*/*`,
+      source_arn: `${resApi.attr('execution_arn')}/*/*/*`,
       depends_on: list(lambda, resApi),
     });
   };
