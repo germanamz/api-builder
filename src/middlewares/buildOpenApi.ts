@@ -77,15 +77,18 @@ const buildOpenApi: Middleware<keyof Context, 'openapi', BuildOpenApiArgv> =
   async (ctx, argv) => {
     const { openapiOutput, openapiStdout } = argv;
     const { api, package: packageJson, routes } = ctx;
-    const paths: { [path: string]: { [method in SupportedHttpMethods]: any } } =
-      {};
+    const paths: {
+      [path: string]: { [method in Lowercase<SupportedHttpMethods>]: any };
+    } = {};
     for (const route of Object.keys(routes)) {
       const routePath = `/${route}`;
       const { name, config, methods } = routes[route];
       paths[routePath] = paths[routePath] || { OPTIONS: getCors() };
       for (const method of methods) {
         const methodConfig = config?.actionConfig?.[method] || {};
-        paths[routePath][method] = {
+        const lowerMethod =
+          method.toLowerCase() as Lowercase<SupportedHttpMethods>;
+        paths[routePath][lowerMethod] = {
           'x-amazon-apigateway-request-validator': 'all',
           ...methodConfig,
           'x-amazon-apigateway-integration': getLambdaIntegration(
