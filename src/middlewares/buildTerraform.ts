@@ -102,6 +102,9 @@ const generateRouterTf =
       function_name: lambdaName,
       role: role.attr('arn'),
       publish: true,
+      environment: {
+        variables: map(config?.variables || {}),
+      },
       depends_on: list(resApi),
     });
 
