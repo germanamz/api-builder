@@ -81,7 +81,7 @@ const buildOpenApi: Middleware<keyof Context, 'openapi', BuildOpenApiArgv> =
       {};
     for (const route of Object.keys(routes)) {
       const routePath = `/${route}`;
-      const { name, config } = routes[routePath];
+      const { name, config } = routes[route];
       paths[routePath] = paths[routePath] || { OPTIONS: getCors() };
       for (const method of routes[routePath].methods) {
         const methodConfig = config?.actionConfig?.[method] || {};
