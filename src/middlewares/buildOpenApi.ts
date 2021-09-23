@@ -81,9 +81,9 @@ const buildOpenApi: Middleware<keyof Context, 'openapi', BuildOpenApiArgv> =
       {};
     for (const route of Object.keys(routes)) {
       const routePath = `/${route}`;
-      const { name, config } = routes[route];
+      const { name, config, methods } = routes[route];
       paths[routePath] = paths[routePath] || { OPTIONS: getCors() };
-      for (const method of routes[routePath].methods) {
+      for (const method of methods) {
         const methodConfig = config?.actionConfig?.[method] || {};
         paths[routePath][method] = {
           'x-amazon-apigateway-request-validator': 'all',
