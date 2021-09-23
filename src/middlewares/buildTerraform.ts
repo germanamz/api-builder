@@ -1,13 +1,7 @@
 import { createHash } from 'crypto';
 import { ensureDir } from 'fs-extra';
 import { resolve } from 'path';
-import {
-  fn,
-  list,
-  map,
-  Resource,
-  TerraformGenerator,
-} from 'terraform-generator';
+import { list, map, Resource, TerraformGenerator } from 'terraform-generator';
 
 import CommonArgv from '../types/CommonArgv';
 import Context from '../types/Context';
@@ -76,12 +70,7 @@ const generateRouterTf =
         image_tag: argv.version,
       });
       lambdaConfig = {
-        image_uri: `${ercRepo.attr('repository_url')}:${fn(
-          'replace',
-          artifactImage.id,
-          'sha256:',
-          ''
-        )}`,
+        image_uri: `${ercRepo.attr('repository_url')}@${artifactImage.id}`,
         package_type: 'Image',
       };
     } else {
