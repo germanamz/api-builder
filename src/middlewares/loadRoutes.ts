@@ -40,7 +40,8 @@ const loadRoutes: Middleware<'api', 'routes'> = async () => {
               .replace(/\//g, '-')
               .replace(/\.[jt]s$/g, '')
               .replace(/\.$/g, '_')
-              .replace(/[{}]/g, ''),
+              .replace(/[{}]/g, '')
+              .toLowerCase(),
             config: await getConfig(
               join(routesDirPath, '.router.js'),
               join(routesDirPath, '.router.json')
