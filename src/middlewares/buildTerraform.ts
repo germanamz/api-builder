@@ -100,6 +100,7 @@ const generateRouterTf =
       ...lambdaConfig,
       function_name: lambdaName,
       role: role.attr('arn'),
+      timeout: 29,
       publish: true,
       depends_on: list(resApi),
     };
