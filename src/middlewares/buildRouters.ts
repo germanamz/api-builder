@@ -19,6 +19,7 @@ export type BuildRoutersArgv = CommonArgv & {
   routesOutput?: string;
   zip?: boolean;
   docker?: boolean;
+  compose?: boolean;
 };
 
 const pipe = promisify(pipeline);
@@ -35,8 +36,12 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
   const dockerTemplate = ejs.compile(
     await readFile(resolve(__dirname, '../templates/docker.ejs'), 'utf8')
   );
+  const composeTemplate = ejs.compile(
+    await readFile(resolve(__dirname, '../templates/compose.ejs'), 'utf8')
+  );
   const outdir = resolve(process.cwd(), routesOutput || api.routesOutput);
   const routersOutdir = join(outdir, 'routers');
+  const artifactNames: string[] = [];
 
   await ensureDir(routersOutdir);
 
@@ -85,6 +90,8 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
         fs.createWriteStream(join(artifactDir, 'package.json'))
       );
       await outputFile(join(artifactDir, 'Dockerfile'), dockerTemplate());
+
+      artifactNames.push(artifactName);
 
       continue;
     }
@@ -140,6 +147,13 @@ const buildRouters: Middleware<keyof Context, null, BuildRoutersArgv> = async (
         fs.createWriteStream(archiveChecksumPath)
       );
     }
+  }
+
+  if (docker) {
+    await outputFile(
+      join(outdir, 'docker-compose.yml'),
+      composeTemplate({ artifactNames, outdir, join })
+    );
   }
 };
 
