@@ -1,5 +1,4 @@
 import Types, { EntryObject } from 'webpack';
-import nodeExternals from 'webpack-node-externals';
 
 export interface CommonOpts {
   entry:
@@ -14,7 +13,7 @@ export interface CommonOpts {
   output: string;
   context?: string;
   filename?: string;
-  externals?: string[];
+  externals?: Types.Configuration['externals'];
   isDev?: boolean;
 }
 
@@ -39,12 +38,7 @@ function common({
     resolve: {
       extensions: ['.ts', '.js'],
     },
-    externals: externals?.map(
-      (modulesDir) =>
-        nodeExternals({
-          modulesDir,
-        }) as any
-    ),
+    externals,
     mode: isDev ? 'development' : 'production',
     context,
     entry,

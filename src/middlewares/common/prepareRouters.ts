@@ -2,8 +2,8 @@ import ejs from 'ejs';
 import { readFile } from 'fs-extra';
 import { join, resolve } from 'path';
 
-import Context from '../types/Context';
-import Middleware from '../types/Middleware';
+import Context from '../../types/Context';
+import Middleware from '../../types/Middleware';
 
 const prepareRouters: Middleware<keyof Context, 'routersPaths'> = async (
   ctx
@@ -12,7 +12,7 @@ const prepareRouters: Middleware<keyof Context, 'routersPaths'> = async (
   const routersPaths = [];
   const routesFolder = resolve(process.cwd(), 'routes');
   const routerTemplate = ejs.compile(
-    await readFile(resolve(__dirname, '../templates/router.ts.ejs'), 'utf8')
+    await readFile(resolve(__dirname, '../../templates/router.ts.ejs'), 'utf8')
   );
 
   for await (const [endpoint, config] of Object.entries(routes)) {

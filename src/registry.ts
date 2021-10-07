@@ -1,38 +1,52 @@
 import { reduce } from 'bluebird';
 
+import CommonPipelineArgv from './types/argvs/CommonPipelineArgv';
 import Context from './types/Context';
 import Middleware from './types/Middleware';
 
-export interface RegistryApi {
-  register: (name: string, ...pipeline: Middleware<any, any>[]) => void;
-  execute: (actionToExecute: string, argv: any) => Promise<any>;
+export type RegistryArgv<P> = {
+  [name in keyof P]: CommonPipelineArgv;
+};
+
+export interface RegistryApi<P> {
+  register: (
+    name: keyof P,
+    ...pipeline: Middleware<any, any, P[typeof name]>[]
+  ) => void;
+  execute: (name: keyof P, argv: P[typeof name]) => Promise<any>;
 }
 
-export const registryFactory = (): RegistryApi => {
-  const registry: { [name: string]: Middleware<any, any>[] } = {};
+export type Registry<P> = {
+  [name in keyof P]: Middleware<any, any, P[keyof P]>[];
+};
 
-  const register = (name: string, ...pipeline: Middleware<any, any>[]) => {
+const registryFactory = <P extends RegistryArgv<P>>(
+  pipelines?: Registry<P>
+): RegistryApi<P> => {
+  const registry: Registry<P> = pipelines || ({} as Registry<P>);
+
+  const register = (
+    name: keyof P,
+    ...pipeline: Middleware<any, any, P[typeof name]>[]
+  ) => {
     registry[name] = pipeline;
   };
 
-  const execute = async (
-    actionToExecute: string,
-    argv: any
-  ): Promise<void | Context> => {
-    if (!registry[actionToExecute]) {
-      throw new Error(`No action ${actionToExecute} found`);
+  const execute = async (name: keyof P, argv: any): Promise<void | Context> => {
+    if (!registry[name]) {
+      throw new Error(`No pipeline ${name} found`);
     }
-    const pipeline = registry[actionToExecute];
+    const pipeline = registry[name];
 
     let res;
     try {
-      res = await reduce<Middleware<any, any>, any>(
+      res = await reduce(
         pipeline,
         async (ctx, middleware) => ({
           ...ctx,
           ...((await middleware(ctx, argv)) || {}),
         }),
-        {}
+        {} as Context
       );
     } catch (e) {
       console.error(e);
@@ -47,4 +61,4 @@ export const registryFactory = (): RegistryApi => {
   };
 };
 
-export default registryFactory();
+export default registryFactory;

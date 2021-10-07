@@ -3,14 +3,14 @@ import { ensureDir } from 'fs-extra';
 import { resolve } from 'path';
 import { list, map, Resource, TerraformGenerator } from 'terraform-generator';
 
-import CommonArgv from '../types/CommonArgv';
-import Context from '../types/Context';
-import Middleware from '../types/Middleware';
+import BuildPipelineArgv from '../../types/argvs/BuildPipelineArgv';
+import Context from '../../types/Context';
+import Middleware from '../../types/Middleware';
 
 const generateRouterTf =
   (
     ctx: Context,
-    argv: BuildTerraformArgv,
+    argv: BuildPipelineArgv,
     tfg: TerraformGenerator,
     resApi: Resource
   ) =>
@@ -123,73 +123,70 @@ const generateRouterTf =
     });
   };
 
-export type BuildTerraformArgv = CommonArgv & {
-  docker?: boolean;
-};
+const buildTerraform: Middleware<keyof Context, null, BuildPipelineArgv> =
+  async (ctx, argv) => {
+    const { api, openapi, routes } = ctx;
+    const { name, output = 'dist' } = api;
+    const schemaJson = JSON.stringify(openapi);
+    const tfg = new TerraformGenerator({
+      required_providers: {
+        aws: map({
+          source: 'hashicorp/aws',
+          version: '3.56.0',
+        }),
+      },
+    });
 
-const buildTerraform: Middleware<keyof Context, null> = async (ctx, argv) => {
-  const { api, openapi, routes } = ctx;
-  const { name, terraformOutput } = api;
-  const schemaJson = JSON.stringify(openapi);
-  const tfg = new TerraformGenerator({
-    required_providers: {
-      aws: map({
-        source: 'hashicorp/aws',
-        version: '3.56.0',
+    tfg.provider('aws', {
+      default_tags: {
+        tags: map({
+          App: api.name,
+        }),
+      },
+    });
+
+    tfg.backend('s3', {
+      bucket: api.state.bucket,
+      key: api.name,
+      region: api.region,
+    });
+
+    const resApi = tfg.resource('aws_api_gateway_rest_api', '_', {
+      name: `${name}-${process.env.NODE_ENV}`,
+      body: schemaJson,
+      endpoint_configuration: {
+        types: list('REGIONAL'),
+      },
+    });
+
+    const resApiDeployment = tfg.resource('aws_api_gateway_deployment', '_', {
+      rest_api_id: resApi.id,
+      triggers: map({
+        redeployment: createHash('sha1').update(schemaJson).digest('base64'),
       }),
-    },
-  });
+      lifecycle: {
+        create_before_destroy: true,
+      },
+      depends_on: list(resApi),
+    });
 
-  tfg.provider('aws', {
-    default_tags: {
-      tags: map({
-        App: api.name,
-      }),
-    },
-  });
+    tfg.resource('aws_api_gateway_stage', '_', {
+      deployment_id: resApiDeployment.id,
+      rest_api_id: resApi.id,
+      stage_name: 'live',
+      depends_on: list(resApiDeployment),
+    });
 
-  tfg.backend('s3', {
-    bucket: api.state.bucket,
-    key: api.name,
-    region: api.region,
-  });
+    Object.keys(routes).forEach(generateRouterTf(ctx, argv, tfg, resApi));
 
-  const resApi = tfg.resource('aws_api_gateway_rest_api', '_', {
-    name: `${name}-${process.env.NODE_ENV}`,
-    body: schemaJson,
-    endpoint_configuration: {
-      types: list('REGIONAL'),
-    },
-  });
+    const outdir = resolve(process.cwd(), output, 'terraform');
 
-  const resApiDeployment = tfg.resource('aws_api_gateway_deployment', '_', {
-    rest_api_id: resApi.id,
-    triggers: map({
-      redeployment: createHash('sha1').update(schemaJson).digest('base64'),
-    }),
-    lifecycle: {
-      create_before_destroy: true,
-    },
-    depends_on: list(resApi),
-  });
+    await ensureDir(outdir);
 
-  tfg.resource('aws_api_gateway_stage', '_', {
-    deployment_id: resApiDeployment.id,
-    rest_api_id: resApi.id,
-    stage_name: 'live',
-    depends_on: list(resApiDeployment),
-  });
-
-  Object.keys(routes).forEach(generateRouterTf(ctx, argv, tfg, resApi));
-
-  const outdir = resolve(process.cwd(), terraformOutput);
-
-  await ensureDir(outdir);
-
-  tfg.write({
-    dir: outdir,
-    format: true,
-  });
-};
+    tfg.write({
+      dir: outdir,
+      format: true,
+    });
+  };
 
 export default buildTerraform;

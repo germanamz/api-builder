@@ -1,14 +1,14 @@
 import { opendir } from 'fs/promises';
 import { basename, extname, join, resolve } from 'path';
 
-import BuilderErrors, { genBuilderError } from '../errors/BuilderErrors';
-import getConfig from '../helpers/getConfig';
-import Context from '../types/Context';
-import Middleware from '../types/Middleware';
-import Routes from '../types/Routes';
+import BuilderErrors, { genBuilderError } from '../../errors/BuilderErrors';
+import getConfig from '../../helpers/getConfig';
+import Context from '../../types/Context';
+import Middleware from '../../types/Middleware';
+import Routes from '../../types/Routes';
 import SupportedHttpMethods, {
   SupportedMethodsArray,
-} from '../types/SupportedHttpMethods';
+} from '../../types/SupportedHttpMethods';
 
 const loadRoutes: Middleware<keyof Context, 'routes'> = async (ctx) => {
   const extensions = ['.js', '.ts'];

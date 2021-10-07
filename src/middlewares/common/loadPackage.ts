@@ -1,8 +1,8 @@
 import { pathExists, readJSON } from 'fs-extra';
 import { join } from 'path';
 
-import BuilderErrors, { genBuilderError } from '../errors/BuilderErrors';
-import Middleware from '../types/Middleware';
+import BuilderErrors, { genBuilderError } from '../../errors/BuilderErrors';
+import Middleware from '../../types/Middleware';
 
 const loadPackage: Middleware<null, 'package'> = async () => {
   const path = join(process.cwd(), 'package.json');

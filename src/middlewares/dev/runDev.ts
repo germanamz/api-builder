@@ -9,33 +9,38 @@ import { basename, dirname, extname, join, resolve } from 'path';
 import { promisify } from 'util';
 import webpack, { Stats } from 'webpack';
 
-import BuilderErrors, { genBuilderError } from '../errors/BuilderErrors';
-import eventFromReq from '../helpers/eventFromReq';
-import getConfig from '../helpers/getConfig';
-import CommonArgv from '../types/CommonArgv';
-import Context from '../types/Context';
-import { Handler } from '../types/Handler';
-import Middleware from '../types/Middleware';
-import RouterConfig from '../types/RouterConfig';
-import { Route } from '../types/Routes';
+import BuilderErrors, { genBuilderError } from '../../errors/BuilderErrors';
+import eventFromReq from '../../helpers/eventFromReq';
+import getConfig from '../../helpers/getConfig';
+import BuildPipelineArgv from '../../types/argvs/DevPipelineArgv';
+import Context from '../../types/Context';
+import { Handler } from '../../types/Handler';
+import Middleware from '../../types/Middleware';
+import RouterConfig from '../../types/RouterConfig';
+import { Route } from '../../types/Routes';
 import SupportedHttpMethods, {
   SupportedMethodsArray,
-} from '../types/SupportedHttpMethods';
-import genApiError from '../utils/genApiError';
-import common from '../webpack/config/common.config';
+} from '../../types/SupportedHttpMethods';
+import genApiError from '../../utils/genApiError';
+import common from '../../webpack/config/common.config';
 
 const fsMonkey = require('fs-monkey');
 
 let server: Server;
 let app: Express;
 
-const initApi = async (ctx: Context, argv: RunDevArgv, operations: any) => {
+const initApi = async (
+  ctx: Context,
+  argv: BuildPipelineArgv,
+  operations: any
+) => {
   if (server?.listening) {
     console.log('Closing dev server');
     const close = promisify(server.close).bind(server);
     await close();
   }
 
+  console.clear();
   console.log('Starting dev server');
   const { port = 3000 } = argv;
   const { openapi, api } = ctx;
@@ -151,11 +156,7 @@ const opWrapper =
     res.send(body);
   };
 
-interface RunDevArgv extends CommonArgv {
-  port?: number | string;
-}
-
-const runDev: Middleware<keyof Context, null, RunDevArgv> = async (
+const runDev: Middleware<keyof Context, null, BuildPipelineArgv> = async (
   ctx,
   argv
 ) => {

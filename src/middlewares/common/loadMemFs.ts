@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { createFsFromVolume, Volume } from 'memfs';
 import ufs from 'unionfs';
 
-import Middleware from '../types/Middleware';
+import Middleware from '../../types/Middleware';
 
 const loadMemFs: Middleware<null, 'ufs' | 'inFs' | 'outFs'> = async () => {
   const inFs = createFsFromVolume(new Volume());

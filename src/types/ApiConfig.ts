@@ -3,9 +3,7 @@ export interface ApiConfig {
   region: string;
   accountId: string;
   deploymentBucket: string;
-  routesOutput: string;
-  openapiOutput?: string;
-  terraformOutput: string;
+  output: string;
   state: {
     bucket: string;
   };

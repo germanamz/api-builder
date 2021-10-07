@@ -49,8 +49,7 @@
     "terraform-generator": "^5.0.2",
     "tslib": "^2.3.1",
     "unionfs": "^4.4.0",
-    "webpack": "^5.51.1",
-    "webpack-node-externals": "^3.0.0"
+    "webpack": "^5.51.1"
   },
   "devDependencies": {
     "@feprisa/eslint-config-base": "^1.2.0",

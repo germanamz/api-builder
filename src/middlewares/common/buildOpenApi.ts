@@ -1,11 +1,8 @@
-import { outputJSON } from 'fs-extra';
-import { resolve } from 'path';
-
-import { ApiConfig } from '../types/ApiConfig';
-import CommonArgv from '../types/CommonArgv';
-import Context from '../types/Context';
-import Middleware from '../types/Middleware';
-import SupportedHttpMethods from '../types/SupportedHttpMethods';
+import { ApiConfig } from '../../types/ApiConfig';
+import CommonPipelineArgv from '../../types/argvs/CommonPipelineArgv';
+import Context from '../../types/Context';
+import Middleware from '../../types/Middleware';
+import SupportedHttpMethods from '../../types/SupportedHttpMethods';
 
 const getLambdaArn = (lambda: string, api: ApiConfig) =>
   `arn:aws:apigateway:${api.region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${api.region}:${api.accountId}:function:${lambda}/invocations`;
@@ -77,14 +74,8 @@ const getCors = (isDev: boolean) => {
   return corsConfig;
 };
 
-export type BuildOpenApiArgv = CommonArgv & {
-  openapiOutput?: string;
-  openapiStdout?: boolean;
-};
-
-const buildOpenApi: Middleware<keyof Context, 'openapi', BuildOpenApiArgv> =
-  async (ctx, argv) => {
-    const { openapiOutput, openapiStdout } = argv;
+const buildOpenApi: Middleware<keyof Context, 'openapi', CommonPipelineArgv> =
+  async (ctx) => {
     const { api, package: packageJson, routes, isDev } = ctx;
     const paths: {
       [path: string]: {
@@ -141,17 +132,6 @@ const buildOpenApi: Middleware<keyof Context, 'openapi', BuildOpenApiArgv> =
           validateRequestParameters: true,
         },
       };
-    }
-
-    if (openapiOutput || api.openapiOutput) {
-      await outputJSON(
-        resolve(process.cwd(), openapiOutput || (api.openapiOutput as string)),
-        openapi
-      );
-    }
-
-    if (openapiStdout) {
-      console.log(JSON.stringify(openapi));
     }
 
     return {
