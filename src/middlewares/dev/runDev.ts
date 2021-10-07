@@ -66,7 +66,7 @@ const buildRouter = async (endpoint: string, route: Route, ctx: Context) => {
     entry: routerPath,
     output: routerDir,
     filename: `${name}.js`,
-    externals: api.externals,
+    externals: ['webpack', ...api.externals],
   });
   const compiler = webpack(config);
   const run = promisify(compiler.run).bind(compiler);

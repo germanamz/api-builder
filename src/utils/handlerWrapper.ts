@@ -38,7 +38,7 @@ const handlerWrapper = <KC extends keyof any = ErrnoErrorCodes>(
         statusCode: 200,
         body: typeof res === 'string' ? res : JSON.stringify(res),
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e instanceof Errno) {
         const error: ApiError = e;
         return {
@@ -53,7 +53,7 @@ const handlerWrapper = <KC extends keyof any = ErrnoErrorCodes>(
         };
       }
 
-      console.error(e);
+      console.error(e.toString());
 
       return {
         body: JSON.stringify(genError(ErrnoErrors.UNKNOWN)),
