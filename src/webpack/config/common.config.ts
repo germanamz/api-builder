@@ -14,7 +14,8 @@ export interface CommonOpts {
   output: string;
   context?: string;
   filename?: string;
-  externals: string[];
+  externals?: string[];
+  isDev?: boolean;
 }
 
 function common({
@@ -23,6 +24,7 @@ function common({
   filename,
   context,
   externals,
+  isDev = false,
 }: CommonOpts): Types.Configuration {
   return {
     node: false,
@@ -31,6 +33,7 @@ function common({
       node: true,
     },
     optimization: {
+      minimize: false,
       nodeEnv: false,
     },
     resolve: {
@@ -42,7 +45,7 @@ function common({
           modulesDir,
         }) as any
     ),
-    mode: 'production',
+    mode: isDev ? 'development' : 'production',
     context,
     entry,
     output: {

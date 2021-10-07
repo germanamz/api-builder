@@ -32,7 +32,9 @@ const handlerWrapper = <KC extends keyof any = ErrnoErrorCodes>(
       });
       return {
         isBase64Encoded: false,
-        headers: {},
+        headers: {
+          'Content-Type': 'application/json',
+        },
         statusCode: 200,
         body: typeof res === 'string' ? res : JSON.stringify(res),
       };
@@ -41,9 +43,12 @@ const handlerWrapper = <KC extends keyof any = ErrnoErrorCodes>(
         const error: ApiError = e;
         return {
           statusCode: 500,
-          headers: {},
           isBase64Encoded: false,
           ...error.extra,
+          headers: {
+            'Content-Type': 'application/json',
+            ...(error.extra?.headers || {}),
+          },
           body: JSON.stringify(e.toJSON()),
         };
       }
@@ -53,7 +58,9 @@ const handlerWrapper = <KC extends keyof any = ErrnoErrorCodes>(
       return {
         body: JSON.stringify(genError(ErrnoErrors.UNKNOWN)),
         statusCode: 500,
-        headers: {},
+        headers: {
+          'Content-Type': 'application/json',
+        },
         isBase64Encoded: false,
       };
     }

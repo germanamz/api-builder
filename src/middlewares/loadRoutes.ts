@@ -3,13 +3,14 @@ import { basename, extname, join, resolve } from 'path';
 
 import BuilderErrors, { genBuilderError } from '../errors/BuilderErrors';
 import getConfig from '../helpers/getConfig';
+import Context from '../types/Context';
 import Middleware from '../types/Middleware';
 import Routes from '../types/Routes';
 import SupportedHttpMethods, {
   SupportedMethodsArray,
 } from '../types/SupportedHttpMethods';
 
-const loadRoutes: Middleware<'api', 'routes'> = async () => {
+const loadRoutes: Middleware<keyof Context, 'routes'> = async (ctx) => {
   const extensions = ['.js', '.ts'];
   const routes: Routes = {};
 
@@ -43,6 +44,7 @@ const loadRoutes: Middleware<'api', 'routes'> = async () => {
               .replace(/[{}]/g, '')
               .toLowerCase(),
             config: await getConfig(
+              ctx,
               join(routesDirPath, '.router.js'),
               join(routesDirPath, '.router.json')
             ),

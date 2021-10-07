@@ -5,6 +5,9 @@ import loadApiConfig from './middlewares/loadApiConfig';
 import loadMemFs from './middlewares/loadMemFs';
 import loadPackage from './middlewares/loadPackage';
 import loadRoutes from './middlewares/loadRoutes';
+import prepareRouters from './middlewares/prepareRouters';
+import runDev from './middlewares/runDev';
+import setDev from './middlewares/setDev';
 import registry from './registry';
 import { ApiConfig } from './types/ApiConfig';
 import genApiError from './utils/genApiError';
@@ -36,6 +39,14 @@ registry.register(
   buildRouters,
   buildOpenApi,
   buildTerraform
+);
+registry.register(
+  'dev',
+  setDev,
+  ...commonMiddlewares,
+  buildOpenApi,
+  prepareRouters,
+  runDev
 );
 
 export { ApiConfig, genApiError, handlerWrapper };

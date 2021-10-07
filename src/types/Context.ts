@@ -12,6 +12,8 @@ type Context = {
   package: any;
   routes: Routes;
   openapi: any;
+  routersPaths: string[];
+  isDev: boolean;
 };
 
 export default Context;

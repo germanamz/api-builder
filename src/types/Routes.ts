@@ -1,12 +1,14 @@
 import RouterConfig from './RouterConfig';
 import SupportedHttpMethods from './SupportedHttpMethods';
 
+export type Route = {
+  methods: SupportedHttpMethods[];
+  config?: RouterConfig;
+  name: string;
+};
+
 type Routes = {
-  [path: string]: {
-    methods: SupportedHttpMethods[];
-    config?: RouterConfig;
-    name: string;
-  };
+  [path: string]: Route;
 };
 
 export default Routes;

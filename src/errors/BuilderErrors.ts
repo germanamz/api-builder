@@ -11,6 +11,7 @@ export type BuilderErrorsCodes =
   | 'PACKAGE_NOT_FOUND'
   | 'API_CONFIG_NOT_FOUND'
   | 'ROUTER_AS_DIRECTORY'
+  | 'METHOD_NOT_SUPPORTED'
   | 'BUILD'
   | 'LOAD';
 
@@ -21,6 +22,7 @@ const BuilderErrors: KnownErrors<BuilderErrorsCodes> = {
   PACKAGE_NOT_FOUND: 'PACKAGE_NOT_FOUND',
   API_CONFIG_NOT_FOUND: 'API_CONFIG_NOT_FOUND',
   ROUTER_AS_DIRECTORY: 'ROUTER_AS_DIRECTORY',
+  METHOD_NOT_SUPPORTED: 'METHOD_NOT_SUPPORTED',
 };
 
 export const BuilderErrorsMessages: KnownErrorsMessages<BuilderErrorsCodes> = {
@@ -29,6 +31,7 @@ export const BuilderErrorsMessages: KnownErrorsMessages<BuilderErrorsCodes> = {
   LOAD: 'Load error',
   PACKAGE_NOT_FOUND: 'package.json not found on cwd',
   API_CONFIG_NOT_FOUND: 'api config not found on cwd (.api.js or .api.json)',
+  METHOD_NOT_SUPPORTED: 'the method your trying to define is not supported',
   ROUTER_AS_DIRECTORY:
     'a router must be defined as a folder and have each supported method defined on independent files (check docs for info).',
 };
