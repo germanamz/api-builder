@@ -1,3 +1,5 @@
+import { resolve } from 'path';
+
 import BuildPipeline from './pipelines/BuildPipeline';
 import DevPipeline from './pipelines/DevPipeline';
 import registryFactory from './registry';
@@ -5,7 +7,6 @@ import { ApiConfig } from './types/ApiConfig';
 import BuildPipelineArgv from './types/argvs/BuildPipelineArgv';
 import DevPipelineArgv from './types/argvs/DevPipelineArgv';
 import genApiError from './utils/genApiError';
-import handlerWrapper from './utils/handlerWrapper';
 
 export type {
   ActionConfig,
@@ -22,6 +23,10 @@ export type { Handler } from './types/Handler';
 export type { default as HandlerContext } from './types/HandlerContext';
 export type { Statement } from './types/Statement';
 
+require('ts-node').register({
+  project: resolve(process.cwd(), 'tsconfig.json'),
+});
+
 const pipelines = {
   build: BuildPipeline,
   dev: DevPipeline,
@@ -34,5 +39,5 @@ const registry = registryFactory<{
   dev: DevPipelineArgv;
 }>(pipelines);
 
-export { ApiConfig, genApiError, handlerWrapper };
+export { ApiConfig, genApiError };
 export default registry;

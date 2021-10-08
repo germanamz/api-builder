@@ -28,6 +28,7 @@ function common({
   return {
     node: false,
     target: 'node',
+    devtool: 'inline-source-map',
     externalsPresets: {
       node: true,
     },
@@ -54,22 +55,7 @@ function common({
         {
           test: /\.ts$/,
           exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-typescript'],
-            },
-          },
-        },
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-            },
-          },
+          use: 'ts-loader',
         },
       ],
     },

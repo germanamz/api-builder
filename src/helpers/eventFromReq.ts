@@ -4,7 +4,10 @@ import { ApiGatewayProxyEvent } from '../types/ApiGatewayProxyEvent';
 
 const eventFromReq = async (req: Request): Promise<ApiGatewayProxyEvent> =>
   ({
-    body: req.body,
+    body:
+      req.is('json') || req.is('application/json')
+        ? JSON.stringify(req.body)
+        : req.body,
     isBase64Encoded: false,
     resource: '',
     pathParameters: req.params,

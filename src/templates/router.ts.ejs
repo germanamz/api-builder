@@ -1,16 +1,16 @@
+const internalHandlerWrapper = require('./internalHandlerWrapper').default;
 <% methods.forEach((method) => {%>
-import method<%-method%> from './<%-method%>';
-<% });%>
-export const handler = (event: any, ctx: any) => {
+import method<%-method%> from './<%-method%>';<% });%>
+
+const errorMessages: any = <%- JSON.stringify(errorMessages || {}) %>;
+const errorStatuses: any = <%- JSON.stringify(errorStatuses || {}) %>;
+
+const methods: any = {
+<% methods.forEach((method) => {%>    <%- method %>: internalHandlerWrapper(errorMessages, errorStatuses, method<%-method%>),<% });%>
+};
+
+export const handler = async (event: any, ctx: any) => {
     const { httpMethod } = event;
-    switch (httpMethod) {
-        <% methods.forEach((method) => {%>
-        case '<%-method%>':
-            return method<%-method%>(event, ctx);
-        <% });%>
-    }
-    return {
-        statusCode: 500,
-        body: 'Server error',
-    };
+
+    return methods[httpMethod](event, ctx);
 };

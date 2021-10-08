@@ -47,7 +47,7 @@ const buildRouters: Middleware<keyof Context, null, BuildPipelineArgv> = async (
             routerPackageJson.dependencies[external] =
               packageJson.dependencies[external];
           }
-          cb(null, `commonjs${externalContext.request}`);
+          cb(null, `commonjs ${externalContext.request}`);
           return;
         }
 
