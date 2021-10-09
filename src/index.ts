@@ -1,8 +1,3 @@
-/* eslint-disable import/first */
-require('ts-node').register({
-  project: `${process.cwd()}/tsconfig.json`,
-});
-
 import BuildPipeline from './pipelines/BuildPipeline';
 import DevPipeline from './pipelines/DevPipeline';
 import registryFactory from './registry';
