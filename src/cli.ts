@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+/* eslint-disable import/first */
+require('ts-node').register({
+  project: `${process.cwd()}/tsconfig.json`,
+});
+
 import minimist from 'minimist';
 
 import registry, { DefaultPipelines } from './index';

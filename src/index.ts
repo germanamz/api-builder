@@ -1,4 +1,7 @@
-import { resolve } from 'path';
+/* eslint-disable import/first */
+require('ts-node').register({
+  project: `${process.cwd()}/tsconfig.json`,
+});
 
 import BuildPipeline from './pipelines/BuildPipeline';
 import DevPipeline from './pipelines/DevPipeline';
@@ -22,10 +25,6 @@ export type { ApiGatewayProxyResponse } from './types/ApiGatewayProxyResponse';
 export type { Handler } from './types/Handler';
 export type { default as HandlerContext } from './types/HandlerContext';
 export type { Statement } from './types/Statement';
-
-require('ts-node').register({
-  project: resolve(process.cwd(), 'tsconfig.json'),
-});
 
 const pipelines = {
   build: BuildPipeline,
