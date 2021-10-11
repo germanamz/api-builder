@@ -3,8 +3,6 @@
 import bodyParser from 'body-parser';
 import express, { Express, Request, Response } from 'express';
 import { initialize } from 'express-openapi';
-import { watch } from 'fs/promises';
-import { open } from 'fs-extra';
 import { createServer, Server } from 'http';
 import { dirname, join, resolve } from 'path';
 import { promisify } from 'util';
@@ -144,9 +142,6 @@ const runDev: Middleware<keyof Context, null, BuildPipelineArgv> = async (
       headers: {},
     })),
   };
-  const watcher = await watch(resolve(process.cwd(), 'routes'), {
-    recursive: true,
-  });
 
   for await (const endpoint of Object.keys(routes)) {
     const [op, handler] = await handleFile(ctx, endpoint, true);
@@ -154,15 +149,6 @@ const runDev: Middleware<keyof Context, null, BuildPipelineArgv> = async (
   }
 
   await initApi(ctx, argv, operations);
-
-  for await (const { eventType, filename } of watcher) {
-    // wait for change events to happen
-    if (eventType === 'change') {
-      const [op, handler] = await handleFile(ctx, filename);
-      operations[op] = opWrapper(ctx, handler);
-      await initApi(ctx, argv, operations);
-    }
-  }
 };
 
 export default runDev;
