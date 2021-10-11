@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import express, { Express, Request, Response } from 'express';
 import { initialize } from 'express-openapi';
 import { watch } from 'fs/promises';
+import { open } from 'fs-extra';
 import { createServer, Server } from 'http';
 import { dirname, join, resolve } from 'path';
 import { promisify } from 'util';
@@ -46,6 +47,19 @@ const initApi = async (
     consumesMiddleware: {
       'application/json': bodyParser.json(),
       'text/text': bodyParser.text(),
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    errorMiddleware(err, req, res, next) {
+      const { status } = err;
+      console.log(err);
+      res.status(err.status);
+      if (status === 400) {
+        res.json({
+          message: 'Invalid request body',
+        });
+      } else {
+        res.json(err);
+      }
     },
   });
   server.listen(port, () => {
