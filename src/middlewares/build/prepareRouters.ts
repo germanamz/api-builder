@@ -1,5 +1,5 @@
 import ejs from 'ejs';
-import { readFile } from 'fs-extra';
+import { pathExists, readFile } from 'fs-extra';
 import { join, resolve } from 'path';
 import { promisify } from 'util';
 import webpack from 'webpack';
@@ -9,10 +9,18 @@ import Middleware from '../../types/Middleware';
 import common from '../../webpack/config/common.config';
 
 const buildInternalHandlerWrapper = async (ctx: Context) => {
-  const internalHandlerWrapperPath = resolve(
+  let internalHandlerWrapperPath = resolve(
     __dirname,
-    '../../utils/internalHandlerWrapper.ts'
+    '../../utils/internalHandlerWrapper.js'
   );
+
+  if (!(await pathExists(internalHandlerWrapperPath))) {
+    internalHandlerWrapperPath = resolve(
+      __dirname,
+      '../../utils/internalHandlerWrapper.ts'
+    );
+  }
+
   const compiler = webpack(
     common({
       entry: internalHandlerWrapperPath,
