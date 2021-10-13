@@ -32,7 +32,7 @@
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-typescript": "^7.15.0",
-    "@feprisa/errno": "^2.2.0",
+    "@feprisa/errno": "^2.2.3",
     "@types/ejs": "^3.1.0",
     "archiver": "^5.3.0",
     "babel-loader": "^8.2.2",
