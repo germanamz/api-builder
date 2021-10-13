@@ -53,14 +53,9 @@ function common({
     module: {
       rules: [
         {
-          test: /\.[tj]s$/,
+          test: /\.ts$/,
           exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env', '@babel/preset-typescript'],
-            },
-          },
+          use: 'ts-loader',
         },
       ],
     },
