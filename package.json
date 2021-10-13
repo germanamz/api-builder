@@ -29,7 +29,8 @@
   "author": "Feprisa <tech@feprisa.com>",
   "license": "Unlicense",
   "dependencies": {
-    "@babel/preset-env": "^7.15.0",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
     "@babel/preset-typescript": "^7.15.0",
     "@feprisa/errno": "^2.2.0",
     "@types/ejs": "^3.1.0",
