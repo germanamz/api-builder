@@ -26,6 +26,7 @@ const buildInternalHandlerWrapper = async (ctx: Context) => {
       entry: internalHandlerWrapperPath,
       output: '/internal',
       filename: 'internalHandlerWrapper.js',
+      externals: ['@feprisa/errno'],
     })
   );
 
