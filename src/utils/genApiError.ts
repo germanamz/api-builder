@@ -1,25 +1,29 @@
 import type { KnownErrorsMessages } from '@feprisa/errno';
-import { Errno, ErrnoErrorCodes, genErrorFactory } from '@feprisa/errno';
+import { Errno, genErrorFactory } from '@feprisa/errno';
 
-import ApiErrorStatuses from '../interfaces/ApiErrorStatuses';
-import { ApiGatewayProxyResponse } from '../interfaces/ApiGatewayProxyResponse';
+import ApiErrorStatuses from '../types/ApiErrorStatuses';
+import { ApiGatewayProxyResponse } from '../types/ApiGatewayProxyResponse';
 
-export type GenApiError<KC extends keyof any = ErrnoErrorCodes> = (
-  code: KC,
+export type GenApiError = (
+  code: string,
   headers?: Record<any, any>,
   isBase64Encoded?: boolean
-) => Errno<KC>;
+) => Errno<any>;
 
-const genApiError = <KC extends keyof any = ErrnoErrorCodes>(
-  errorMessages: KnownErrorsMessages<KC>,
-  errorStatuses: ApiErrorStatuses<KC>
-): GenApiError<KC> => {
+const genApiError = (
+  errorMessages: KnownErrorsMessages<any>,
+  errorStatuses: ApiErrorStatuses<any>
+): GenApiError => {
   const genError = genErrorFactory<
-    KC,
+    any,
     Partial<Omit<ApiGatewayProxyResponse, 'body'>>
   >(errorMessages);
 
-  return (code: KC, headers?: Record<any, any>, isBase64Encoded?: boolean) =>
+  return (
+    code: any,
+    headers?: Record<string, string | string[]>,
+    isBase64Encoded?: boolean
+  ) =>
     genError(code, {
       statusCode: errorStatuses[code],
       headers,

@@ -1,0 +1,15 @@
+FROM public.ecr.aws/lambda/nodejs:14
+
+ARG CODEARTIFACT_AUTH_TOKEN
+
+RUN npm i -g yarn
+
+RUN npm config set registry https://registry.npmjs.org
+RUN npm config set @feprisa:registry https://feprisa-181459816757.d.codeartifact.us-east-1.amazonaws.com/npm/internal/
+RUN npm config set //feprisa-181459816757.d.codeartifact.us-east-1.amazonaws.com/npm/internal/:_authToken ${CODEARTIFACT_AUTH_TOKEN}
+
+COPY index.js package.json ${LAMBDA_TASK_ROOT}
+
+RUN yarn
+
+CMD [ "index.handler" ]

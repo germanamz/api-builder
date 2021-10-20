@@ -1,56 +1,57 @@
 import { reduce } from 'bluebird';
 
-import { KnownMethods } from './constants/KnownMethods';
-import { prepareToUseHooks } from './dispatch';
-import { ApiConfig } from './interfaces/ApiConfig';
-import { ApiRoute } from './interfaces/ApiRoute';
-import { Router } from './interfaces/Router';
+import CommonPipelineArgv from './types/argvs/CommonPipelineArgv';
+import Context from './types/Context';
+import Middleware from './types/Middleware';
 
-export type MiddlewareContext = {
-  argv: any;
-  packageJson: any;
-  aws: { region: string; accountId: string };
-  routes: { [path: string]: { [method in KnownMethods]: ApiRoute } };
-  paths: string[];
-  schema: any;
-  routers: Router[];
-  api: ApiConfig;
-  terraform: {
-    tf: string;
-    tfvars?: string;
-  };
+export type RegistryArgv<P> = {
+  [name in keyof P]: CommonPipelineArgv;
 };
-type MiddlewareFn = (ctx: MiddlewareContext) => Promise<any>;
-type MiddlewarePipeline = Array<MiddlewareFn>;
-type ActionRegistryType = { [action: string]: MiddlewarePipeline };
 
-export interface RegistryApi {
-  register: (name: string, ...pipeline: MiddlewareFn[]) => void;
-  execute: (actionToExecute: string, argv: any) => Promise<any>;
+export interface RegistryApi<P> {
+  register: (
+    name: keyof P,
+    ...pipeline: Middleware<any, any, P[typeof name]>[]
+  ) => void;
+  execute: (name: keyof P, argv: P[typeof name]) => Promise<any>;
 }
 
-export const registryFactory = (): RegistryApi => {
-  const registry: ActionRegistryType = {};
+export type Registry<P> = {
+  [name in keyof P]: Middleware<any, any, P[keyof P]>[];
+};
 
-  const register = (name: string, ...pipeline: MiddlewarePipeline) => {
+const registryFactory = <P extends RegistryArgv<P>>(
+  pipelines?: Registry<P>
+): RegistryApi<P> => {
+  const registry: Registry<P> = pipelines || ({} as Registry<P>);
+
+  const register = (
+    name: keyof P,
+    ...pipeline: Middleware<any, any, P[typeof name]>[]
+  ) => {
     registry[name] = pipeline;
   };
 
-  const execute = async (actionToExecute: string, argv: any) => {
-    if (!registry[actionToExecute]) {
-      throw new Error(`No action ${actionToExecute} found`);
+  const execute = async (name: keyof P, argv: any): Promise<void | Context> => {
+    if (!registry[name]) {
+      throw new Error(`No pipeline ${name} found`);
     }
-    const pipeline = registry[actionToExecute];
+    const pipeline = registry[name];
 
-    const res = await reduce<MiddlewareFn, any>(
-      pipeline,
-      async (ctx, middleware) =>
-        prepareToUseHooks({ ...ctx, ...(await middleware(ctx)) }),
-      prepareToUseHooks({ argv })
-    );
-
-    prepareToUseHooks(null);
-
+    let res;
+    try {
+      res = await reduce(
+        pipeline,
+        async (ctx, middleware) => ({
+          ...ctx,
+          ...((await middleware(ctx, argv)) || {}),
+        }),
+        {} as Context
+      );
+    } catch (e) {
+      console.error(e);
+      process.exit(1);
+    }
     return res;
   };
 
@@ -60,4 +61,4 @@ export const registryFactory = (): RegistryApi => {
   };
 };
 
-export default registryFactory();
+export default registryFactory;

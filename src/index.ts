@@ -1,15 +1,10 @@
-import build from './actions/build';
-import { ApiConfig } from './interfaces/ApiConfig';
-import bundleRouters from './middlewares/bundleRouters';
-import getAwsConfig from './middlewares/getAwsConfig';
-import getOpenApiSchema from './middlewares/getOpenApiSchema';
-import getPackageJsonData from './middlewares/getPackageJsonData';
-import loadApiConfig from './middlewares/loadApiConfig';
-import prepareRoutes from './middlewares/prepareRoutes';
-import prepareTerraform from './middlewares/prepareTerraform';
-import registry from './registry';
+import BuildPipeline from './pipelines/BuildPipeline';
+import DevPipeline from './pipelines/DevPipeline';
+import registryFactory from './registry';
+import { ApiConfig } from './types/ApiConfig';
+import BuildPipelineArgv from './types/argvs/BuildPipelineArgv';
+import DevPipelineArgv from './types/argvs/DevPipelineArgv';
 import genApiError from './utils/genApiError';
-import handlerWrapper from './utils/handlerWrapper';
 
 export type {
   ActionConfig,
@@ -17,28 +12,26 @@ export type {
   Parameter,
   RefObj,
   RequestBody,
-} from './interfaces/ActionConfig';
-export type { default as ApiError } from './interfaces/ApiError';
-export type { default as ApiErrorStatuses } from './interfaces/ApiErrorStatuses';
-export type { ApiGatewayProxyEvent } from './interfaces/ApiGatewayProxyEvent';
-export type { ApiGatewayProxyResponse } from './interfaces/ApiGatewayProxyResponse';
-export type { GetActionConfigFn } from './interfaces/GetActionConfigFn';
-export type { Handler } from './interfaces/Handler';
-export type { default as HandlerContext } from './interfaces/HandlerContext';
-export type { PolicyStatementsFn } from './interfaces/PolicyStatementsFn';
-export type { Statement } from './interfaces/Statement';
+} from './types/ActionConfig';
+export type { default as ApiError } from './types/ApiError';
+export type { default as ApiErrorStatuses } from './types/ApiErrorStatuses';
+export type { ApiGatewayProxyEvent } from './types/ApiGatewayProxyEvent';
+export type { ApiGatewayProxyResponse } from './types/ApiGatewayProxyResponse';
+export type { Handler } from './types/Handler';
+export type { default as HandlerContext } from './types/HandlerContext';
+export type { Statement } from './types/Statement';
 
-const commonMiddlewares = [
-  getPackageJsonData,
-  loadApiConfig,
-  getAwsConfig,
-  prepareRoutes,
-  bundleRouters,
-  getOpenApiSchema,
-  prepareTerraform,
-];
+const pipelines = {
+  build: BuildPipeline,
+  dev: DevPipeline,
+};
 
-registry.register('build', ...commonMiddlewares, build);
+export type DefaultPipelines = keyof typeof pipelines;
 
-export { ApiConfig, build, genApiError, handlerWrapper };
+const registry = registryFactory<{
+  build: BuildPipelineArgv;
+  dev: DevPipelineArgv;
+}>(pipelines);
+
+export { ApiConfig, genApiError };
 export default registry;

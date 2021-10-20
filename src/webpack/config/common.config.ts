@@ -13,6 +13,8 @@ export interface CommonOpts {
   output: string;
   context?: string;
   filename?: string;
+  externals?: Types.Configuration['externals'];
+  isDev?: boolean;
 }
 
 function common({
@@ -20,11 +22,25 @@ function common({
   output,
   filename,
   context,
+  externals,
+  isDev = false,
 }: CommonOpts): Types.Configuration {
   return {
     node: false,
     target: 'node',
-    mode: 'production',
+    devtool: 'inline-source-map',
+    externalsPresets: {
+      node: true,
+    },
+    optimization: {
+      minimize: false,
+      nodeEnv: false,
+    },
+    resolve: {
+      extensions: ['.ts', '.js'],
+    },
+    externals,
+    mode: isDev ? 'development' : 'production',
     context,
     entry,
     output: {
@@ -34,30 +50,12 @@ function common({
         type: 'umd',
       },
     },
-    optimization: {
-      minimize: true,
-    },
     module: {
       rules: [
         {
           test: /\.ts$/,
           exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-typescript'],
-            },
-          },
-        },
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-            },
-          },
+          use: 'ts-loader',
         },
       ],
     },
