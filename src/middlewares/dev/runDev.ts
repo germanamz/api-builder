@@ -66,7 +66,6 @@ const initApi = async (
 };
 
 const buildRouter = async (ctx: Context, endpoint: string, route: Route) => {
-  const { errorStatuses, errorMessages } = ctx.api;
   const routerDir = resolve(process.cwd(), 'routes', endpoint);
   const methods: any = {};
 
@@ -75,7 +74,7 @@ const buildRouter = async (ctx: Context, endpoint: string, route: Route) => {
     methods[method] = methodHandler.default;
   }
 
-  return routerFactory(errorMessages, errorStatuses, methods);
+  return routerFactory(methods);
 };
 
 const handleFile = async (

@@ -4,8 +4,6 @@ export interface ApiConfig {
   accountId: string;
   deploymentBucket: string;
   output: string;
-  errorMessages: Record<string, string>;
-  errorStatuses: Record<string, number>;
   packageManager?: string;
   state: {
     bucket: string;

@@ -15,7 +15,7 @@ export type BuilderErrorsCodes =
   | 'BUILD'
   | 'LOAD';
 
-const BuilderErrors: KnownErrors<BuilderErrorsCodes> = {
+const BuilderErrors: KnownErrors = {
   ...ErrnoErrors,
   BUILD: 'BUILD',
   LOAD: 'LOAD',
@@ -25,7 +25,7 @@ const BuilderErrors: KnownErrors<BuilderErrorsCodes> = {
   METHOD_NOT_SUPPORTED: 'METHOD_NOT_SUPPORTED',
 };
 
-export const BuilderErrorsMessages: KnownErrorsMessages<BuilderErrorsCodes> = {
+export const BuilderErrorsMessages: KnownErrorsMessages = {
   ...ErrnoErrorsMessages,
   BUILD: 'Building error',
   LOAD: 'Load error',
@@ -36,9 +36,9 @@ export const BuilderErrorsMessages: KnownErrorsMessages<BuilderErrorsCodes> = {
     'a router must be defined as a folder and have each supported method defined on independent files (check docs for info).',
 };
 
-const genError = genErrorFactory<BuilderErrorsCodes>(BuilderErrorsMessages);
+const genError = genErrorFactory(BuilderErrorsMessages);
 
-export const genBuilderError = (code: BuilderErrorsCodes, details?: any) =>
+export const genBuilderError = (code: string, details?: any) =>
   genError(code, details && { details });
 
 export default BuilderErrors;

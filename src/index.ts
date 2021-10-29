@@ -4,7 +4,6 @@ import registryFactory from './registry';
 import { ApiConfig } from './types/ApiConfig';
 import BuildPipelineArgv from './types/argvs/BuildPipelineArgv';
 import DevPipelineArgv from './types/argvs/DevPipelineArgv';
-import genApiError from './utils/genApiError';
 
 export type {
   ActionConfig,
@@ -33,5 +32,5 @@ const registry = registryFactory<{
   dev: DevPipelineArgv;
 }>(pipelines);
 
-export { ApiConfig, genApiError };
+export { ApiConfig };
 export default registry;

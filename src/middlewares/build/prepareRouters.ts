@@ -47,8 +47,7 @@ const buildInternalHandlerWrapper = async (ctx: Context) => {
 const prepareRouters: Middleware<keyof Context, 'routersPaths'> = async (
   ctx
 ) => {
-  const { routes, inFs, api } = ctx;
-  const { errorMessages, errorStatuses } = api;
+  const { routes, inFs } = ctx;
   const routersPaths = [];
   const routesFolder = resolve(process.cwd(), 'routes');
   const routerTemplate = ejs.compile(
@@ -66,8 +65,6 @@ const prepareRouters: Middleware<keyof Context, 'routersPaths'> = async (
     );
     const routerBuild = routerTemplate({
       ...config,
-      errorMessages,
-      errorStatuses,
     });
 
     await inFs.promises.mkdir(routerDir, {

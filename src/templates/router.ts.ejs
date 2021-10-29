@@ -2,11 +2,8 @@ const internalHandlerWrapper = require('./internalHandlerWrapper').default;
 <% methods.forEach((method) => {%>
 import method<%-method%> from './<%-method%>';<% });%>
 
-const errorMessages: any = <%- JSON.stringify(errorMessages || {}) %>;
-const errorStatuses: any = <%- JSON.stringify(errorStatuses || {}) %>;
-
 const methods: any = {
-<% methods.forEach((method) => {%>    <%- method %>: internalHandlerWrapper(errorMessages, errorStatuses, method<%-method%>),<% });%>
+<% methods.forEach((method) => {%>    <%- method %>: internalHandlerWrapper(method<%-method%>),<% });%>
 };
 
 export const handler = async (event: any, ctx: any) => {

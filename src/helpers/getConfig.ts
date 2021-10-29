@@ -1,13 +1,13 @@
 import { pathExists, readJSON } from 'fs-extra';
 
-import { BuilderErrorsCodes, genBuilderError } from '../errors/BuilderErrors';
+import { genBuilderError } from '../errors/BuilderErrors';
 import Context from '../types/Context';
 
 const getConfig = async <R = any>(
   ctx: Context,
   jsPath: string,
   jsonPath: string,
-  notFoundErrorCode?: BuilderErrorsCodes,
+  notFoundErrorCode?: string,
   defaultValue?: Partial<R>
 ): Promise<R | undefined> => {
   const jsPathExists = await pathExists(jsPath);
