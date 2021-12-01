@@ -40,4 +40,25 @@ Routes are defined as filesystem paths in the `routes` folder. e.g
     └── Purchases/
         └── index.ts
 ```
-this 
+# Docker builder
+To build dependencies that depend on AWS arm arch we use the public Docker image provided by AWS to run the installation process.
+
+This image will install all dependencies and zip all lambdas independently it will generate two files for each router `<router-name>.zip` and `<router-name>.zip.checksum`.
+
+To prepare the image follow these steps:
+1. Starting from the root folder of this project...
+```shell
+cd docker/builder
+```
+
+2.
+```shell
+docker build -t api-builder .
+```
+
+Once you have the image ready you can execute this command from the `root folder` of the api you want to build.
+```shell
+docker run -v `pwd`:/var/task -e CODEARTIFACT_AUTH_TOKEN api-builder
+```
+
+`Note: Its important to provide the CODEARTIFACT_AUTH_TOKEN environment variable to give the image access to Feprisa's internal node registry`
