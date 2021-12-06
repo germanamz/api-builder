@@ -18,11 +18,11 @@ export type RequestBody = {
 };
 
 export type ActionConfig = {
-  parameters: (
+  parameters?: (
     | Parameter
     | RefObj
     | MediaType
     | (Parameter & RefObj & MediaType)
   )[];
-  requestBody: RequestBody | RefObj;
+  requestBody?: RequestBody | RefObj;
 };
