@@ -18,6 +18,6 @@ export type RequestBody = {
 };
 
 export type ActionConfig = {
-  parameters: (Parameter | RefObj)[];
+  parameters: (Parameter | RefObj | (Parameter & RefObj))[];
   requestBody: RequestBody | RefObj;
 };
