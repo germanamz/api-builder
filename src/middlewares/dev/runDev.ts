@@ -31,7 +31,6 @@ const initApi = async (
     await close();
   }
 
-  console.clear();
   console.log('Starting dev server');
   const { port = 3000 } = argv;
   const { openapi, api } = ctx;
