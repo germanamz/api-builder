@@ -19,6 +19,7 @@ export type { ApiGatewayProxyResponse } from './types/ApiGatewayProxyResponse';
 export type { default as Context } from './types/Context';
 export type { Handler } from './types/Handler';
 export type { default as HandlerContext } from './types/HandlerContext';
+export type { default as RouterConfig } from './types/RouterConfig';
 export type { Statement } from './types/Statement';
 
 const pipelines = {
