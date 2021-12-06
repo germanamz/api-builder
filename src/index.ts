@@ -16,6 +16,7 @@ export type { default as ApiError } from './types/ApiError';
 export type { default as ApiErrorStatuses } from './types/ApiErrorStatuses';
 export type { ApiGatewayProxyEvent } from './types/ApiGatewayProxyEvent';
 export type { ApiGatewayProxyResponse } from './types/ApiGatewayProxyResponse';
+export type { default as Context } from './types/Context';
 export type { Handler } from './types/Handler';
 export type { default as HandlerContext } from './types/HandlerContext';
 export type { Statement } from './types/Statement';

@@ -9,6 +9,7 @@ type Context = {
   inFs: IFs;
   outFs: IFs;
   api: ApiConfig;
+  routesSchemas: any;
   package: any;
   routes: Routes;
   openapi: any;

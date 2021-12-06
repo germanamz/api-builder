@@ -1,8 +1,10 @@
 import { opendir } from 'fs/promises';
 import { basename, extname, join, resolve } from 'path';
 
+import RouterConfigFiles from '../../constants/RouterConfigFiles';
 import BuilderErrors, { genBuilderError } from '../../errors/BuilderErrors';
-import getConfig from '../../helpers/getConfig';
+import getConfig2 from '../../helpers/getConfig2';
+import getRouterConfigFiles from '../../helpers/getRouterConfigFiles';
 import Context from '../../types/Context';
 import Middleware from '../../types/Middleware';
 import Routes from '../../types/Routes';
@@ -24,8 +26,7 @@ const loadRoutes: Middleware<keyof Context, 'routes'> = async (ctx) => {
         await getRoutes(routePath);
       } else if (
         extensions.indexOf(extname(route.name)) !== -1 &&
-        route.name !== '.router.js' &&
-        route.name !== '.router.json'
+        RouterConfigFiles.indexOf(route.name) === -1
       ) {
         const method = basename(routePath.replace(extname(route.name), ''));
         const endpoint = path;
@@ -43,11 +44,7 @@ const loadRoutes: Middleware<keyof Context, 'routes'> = async (ctx) => {
               .replace(/\.$/g, '_')
               .replace(/[{}]/g, '')
               .toLowerCase(),
-            config: await getConfig(
-              ctx,
-              join(routesDirPath, '.router.js'),
-              join(routesDirPath, '.router.json')
-            ),
+            config: await getConfig2(ctx, getRouterConfigFiles(routesDirPath)),
           };
         }
 

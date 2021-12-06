@@ -3,6 +3,9 @@ import { Statement } from './Statement';
 import SupportedHttpMethods from './SupportedHttpMethods';
 
 type RouterConfig = {
+  schemas?: {
+    [key: string]: any;
+  };
   variables: {
     [key: string]: string;
   };
