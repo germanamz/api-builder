@@ -10,7 +10,7 @@ type RouterConfig = {
     [key: string]: string;
   };
   actionConfig: {
-    [method in SupportedHttpMethods]: ActionConfig;
+    [method in SupportedHttpMethods]?: ActionConfig;
   };
   policyStatements: Statement[];
 };
