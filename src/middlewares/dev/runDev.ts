@@ -73,7 +73,7 @@ const buildRouter = async (ctx: Context, endpoint: string, route: Route) => {
     methods[method] = methodHandler.default;
   }
 
-  return routerFactory(methods);
+  return routerFactory(methods, ctx);
 };
 
 const handleFile = async (
@@ -87,7 +87,7 @@ const handleFile = async (
   const route = routes[endpoint];
   let routerConfig: RouterConfig = route.config as RouterConfig;
 
-  if (/\.router\.js(on)?$/.test(filename)) {
+  if (/\.router\.[jt]s(on)?$/.test(filename)) {
     // A router config changed
     routerConfig = (await getConfig(
       ctx,

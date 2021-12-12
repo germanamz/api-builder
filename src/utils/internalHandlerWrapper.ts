@@ -1,14 +1,14 @@
 import { Errno, ErrnoErrors, genError } from '@feprisa/errno';
 
-import { ApiGatewayProxyEvent } from '../types/ApiGatewayProxyEvent';
 import { ApiGatewayProxyResponse } from '../types/ApiGatewayProxyResponse';
 import { Handler } from '../types/Handler';
 import HandlerContext from '../types/HandlerContext';
+import { PreparedApiGatewayProxyEvent } from '../types/PreparedApiGatewayProxyEvent';
 
 const internalHandlerWrapper =
   (handler: Handler<any>) =>
   async (
-    event: ApiGatewayProxyEvent,
+    event: PreparedApiGatewayProxyEvent,
     handlerCtx: HandlerContext
   ): Promise<ApiGatewayProxyResponse> => {
     try {

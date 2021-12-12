@@ -52,6 +52,6 @@ export type ApiGatewayProxyEvent = {
   };
   pathParameters: { [key: string]: string };
   stageVariables: { [key: string]: string };
-  body: string;
+  body: any;
   isBase64Encoded: boolean;
 };
