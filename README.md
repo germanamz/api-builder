@@ -1,7 +1,5 @@
 # api-builder
-This project is meant to be use on all serverless distributed apis.
-
-It defines a CLI interface and framework for internal apis using npm and terraform to manage, develop and deploy Feprisa's internal apis.
+It defines a CLI interface and framework for internal apis using npm and terraform to manage, develop and deploy REST API's.
 
 ## Prerequisites
 
@@ -11,7 +9,7 @@ It defines a CLI interface and framework for internal apis using npm and terrafo
 ## Setup
 The project uses NodeJs and Terraform to perform the creation and deployment of a single api.
 
-It takes advantage of [`OpenApi 3.0.1`](https://spec.openapis.org/oas/v3.0.1) that lets you create and manipulate HTTP api with a Json Schema configuration file (it doesn't support yaml configs yet).
+It uses [`OpenApi 3.0.1`](https://spec.openapis.org/oas/v3.0.1) that lets you create and manipulate HTTP api with a Json Schema configuration file (it doesn't support yaml configs yet).
 
 To use `api-builder` its necessary to create your api repo with le following structure.
 
@@ -20,7 +18,7 @@ To use `api-builder` its necessary to create your api repo with le following str
 ├── routes // The folder for all lambdas
 │   └── <../../action_lambda> // A folder for each lambda with the filesystem path as http path
 ├── package.json
-└── package-lock.json
+└── package-lock.json / yarn.lock
 ```
 
 ## Routing
@@ -29,17 +27,32 @@ Routes are defined as filesystem paths in the `routes` folder. e.g
 ```
 <project_root>/
 └── routes/
-    ├── Bills/
-    │   ├── post.ts
-    │   ├── get.ts
-    │   └── {billId}/
-    │       ├── patch.ts
-    │       ├── delete.ts
-    │       └── get.ts
-    ├── Users.ts
-    └── Purchases/
-        └── index.ts
+    ├── Products/
+    │   ├── POST.ts
+    │   ├── GET.ts
+    │   └── {productId}/
+    │       ├── PATCH.ts
+    │       ├── DELETE.ts
+    │       └── GET.ts
+    ├── Users.ts // Defaults to GET
+    └── Vouchers/
+        └── POST.ts
 ```
+
+For now the only HTTP methods supported are `POST, GET, PATCH, DELETE`.
+
+By naming a with the HTTP method you define an endpoint the file system path you used.
+
+On the previews example we have 2 folders Products and Vouchers inside them, we define some methods and the HTTP path becomes the file system path. eg
+
+```
+POST /Products/
+GET  /Products/
+GET  /Products/{productId}
+GET  /Users/
+POST /Vouchers/
+```
+
 # Docker builder
 To build dependencies that depend on AWS arm arch we use the public Docker image provided by AWS to run the installation process.
 
@@ -56,9 +69,4 @@ cd docker/builder
 docker build -t api-builder .
 ```
 
-Once you have the image ready you can execute this command from the `root folder` of the api you want to build.
-```shell
-docker run -v `pwd`:/var/task -e CODEARTIFACT_AUTH_TOKEN api-builder
-```
-
-`Note: Its important to provide the CODEARTIFACT_AUTH_TOKEN environment variable to give the image access to Feprisa's internal node registry`
+We recommend extending this image to actually configure private registries like GemFury or AWS Artifact. Take a look at the Dockerfile.
