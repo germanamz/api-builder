@@ -1,10 +1,10 @@
-import type { KnownErrors, KnownErrorsMessages } from '@feprisa/errno';
+import type { KnownErrors, KnownErrorsMessages } from 'errno';
 import {
   ErrnoErrorCodes,
   ErrnoErrors,
   ErrnoErrorsMessages,
   genErrorFactory,
-} from '@feprisa/errno';
+} from 'errno';
 
 export type BuilderErrorsCodes =
   | ErrnoErrorCodes

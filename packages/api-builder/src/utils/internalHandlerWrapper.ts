@@ -1,4 +1,4 @@
-import { Errno, ErrnoErrors, genError } from '@feprisa/errno';
+import { Errno, ErrnoErrors, genError } from 'errno';
 
 import { ApiGatewayProxyResponse } from '../types/ApiGatewayProxyResponse';
 import { Handler } from '../types/Handler';

@@ -5,9 +5,10 @@ module.exports = {
   extends: ['airbnb-base', 'airbnb-typescript/base', 'prettier'],
   parserOptions: {
     sourceType: 'module',
-    project: './tsconfig.json',
+    project: ['./tsconfig.json', './packages/**/tsconfig.json'],
   },
   rules: {
+    'no-restricted-syntax': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'import/first': 'error',
