@@ -66,7 +66,7 @@ cd docker/builder
 
 2.
 ```shell
-docker build -t api-builder .
+docker build -t builder .
 ```
 
 We recommend extending this image to actually configure private registries like GemFury or AWS Artifact. Take a look at the Dockerfile.
