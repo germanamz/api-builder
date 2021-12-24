@@ -1,10 +1,10 @@
+import CommonPipeline from '@the-api-builder/pipeline-common';
 import { Pipeline } from '@the-api-builder/registry';
 
 import buildRouters from '../middlewares/build/buildRouters';
 import buildTerraform from '../middlewares/build/buildTerraform';
 import prepareRouters from '../middlewares/build/prepareRouters';
 import BuildPipelineContext from '../types/BuildPipelineContext';
-import CommonPipeline from './CommonPipeline';
 
 const pipeline = new Pipeline<BuildPipelineContext>();
 

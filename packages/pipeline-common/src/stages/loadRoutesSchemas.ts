@@ -1,8 +1,8 @@
 import { Stage } from '@the-api-builder/registry';
 
-import CommonPipelineContext from '../../types/CommonPipelineContext';
+import Context from '../Context';
 
-const loadRoutesSchemas: Stage<CommonPipelineContext> = async (ctx) => {
+const loadRoutesSchemas: Stage<Context> = async (ctx) => {
   const { routes, api } = ctx;
 
   api.schemas = Object.values(routes).reduce(

@@ -4,9 +4,9 @@ import { Stage } from '@the-api-builder/registry';
 import { pathExists, readJSON } from 'fs-extra';
 import { join } from 'path';
 
-import CommonPipelineContext from '../../types/CommonPipelineContext';
+import Context from '../Context';
 
-const loadPackage: Stage<CommonPipelineContext> = async () => {
+const loadPackage: Stage<Context> = async () => {
   const path = join(process.cwd(), 'package.json');
 
   if (!(await pathExists(path))) {
