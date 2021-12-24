@@ -1,8 +1,8 @@
 import { Stage } from '@the-api-builder/registry';
 
-import { ApiConfig } from '../../types/ApiConfig';
-import CommonPipelineContext from '../../types/CommonPipelineContext';
-import SupportedHttpMethods from '../../types/SupportedHttpMethods';
+import { ApiConfig } from '../ApiConfig';
+import CommonPipelineContext from '../Context';
+import { SupportedHttpMethodsSet } from '../SupportedHttpMethods';
 
 const getLambdaArn = (lambda: string, api: ApiConfig) =>
   `arn:aws:apigateway:${api.region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${api.region}:${api.accountId}:function:${lambda}/invocations`;
@@ -78,7 +78,7 @@ const buildOpenApi: Stage<CommonPipelineContext> = async (ctx) => {
   const { api, package: packageJson, routes, isDev } = ctx;
   const paths: {
     [path: string]: {
-      [method in Lowercase<SupportedHttpMethods | 'options'>]: any;
+      [method in Lowercase<SupportedHttpMethodsSet | 'options'>]: any;
     };
   } = {};
   for (const route of Object.keys(routes)) {
@@ -88,7 +88,7 @@ const buildOpenApi: Stage<CommonPipelineContext> = async (ctx) => {
     for (const method of methods) {
       const methodConfig = config?.actionConfig?.[method] || {};
       const lowerMethod =
-        method.toLowerCase() as Lowercase<SupportedHttpMethods>;
+        method.toLowerCase() as Lowercase<SupportedHttpMethodsSet>;
       if (isDev) {
         paths[routePath][lowerMethod] = {
           responses: {

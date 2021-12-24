@@ -1,10 +1,10 @@
+import { Context as CommonPipelineContext } from '@the-api-builder/pipeline-common';
 import Registry from '@the-api-builder/registry';
 
 import BuildPipeline from './pipelines/BuildPipeline';
 import DevPipeline from './pipelines/DevPipeline';
 import { ApiConfig } from './types/ApiConfig';
 import BuildPipelineContext from './types/BuildPipelineContext';
-import CommonPipelineContext from './types/CommonPipelineContext';
 import DevPipelineContext from './types/DevPipelineContext';
 
 export type {

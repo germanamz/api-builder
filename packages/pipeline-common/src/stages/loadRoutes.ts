@@ -1,19 +1,22 @@
 import { genError } from '@the-api-builder/errno';
 import { BuilderErrors } from '@the-api-builder/errors';
 import { Stage } from '@the-api-builder/registry';
+import {
+  getConfig,
+  getRouterConfigFiles,
+  RouterConfigFiles,
+} from '@the-api-builder/utils';
 import { opendir } from 'fs/promises';
 import { basename, extname, join, resolve } from 'path';
 
-import RouterConfigFiles from '../../constants/RouterConfigFiles';
-import getConfig2 from '../../helpers/getConfig2';
-import getRouterConfigFiles from '../../helpers/getRouterConfigFiles';
-import CommonPipelineContext from '../../types/CommonPipelineContext';
-import Routes from '../../types/Routes';
-import SupportedHttpMethods, {
+import Context from '../Context';
+import Routes from '../Routes';
+import {
+  SupportedHttpMethodsSet,
   SupportedMethodsArray,
-} from '../../types/SupportedHttpMethods';
+} from '../SupportedHttpMethods';
 
-const loadRoutes: Stage<CommonPipelineContext> = async (ctx) => {
+const loadRoutes: Stage<Context> = async (ctx) => {
   const extensions = ['.js', '.ts'];
   const routes: Routes = {};
 
@@ -45,14 +48,14 @@ const loadRoutes: Stage<CommonPipelineContext> = async (ctx) => {
               .replace(/\.$/g, '_')
               .replace(/[{}]/g, '')
               .toLowerCase(),
-            config: await getConfig2(
+            config: await getConfig(
               ctx as any,
               getRouterConfigFiles(routesDirPath)
             ),
           };
         }
 
-        routes[endpoint].methods.push(method as SupportedHttpMethods);
+        routes[endpoint].methods.push(method as SupportedHttpMethodsSet);
       }
     }
   };

@@ -3,9 +3,9 @@ import * as fs from 'fs';
 import { createFsFromVolume, Volume } from 'memfs';
 import ufs from 'unionfs';
 
-import CommonPipelineContext from '../../types/CommonPipelineContext';
+import Context from '../Context';
 
-const loadMemFs: Stage<CommonPipelineContext> = async () => {
+const loadMemFs: Stage<Context> = async () => {
   const inFs = createFsFromVolume(new Volume());
   const outFs = createFsFromVolume(new Volume());
 
