@@ -1,0 +1,35 @@
+{
+  "name": "@the-api-builder/errors",
+  "version": "1.0.0",
+  "description": "Now I’m the model of a modern major general / The venerated Virginian veteran whose men are all / Lining up, to put me up on a pedestal / Writin’ letters to relatives / Embellishin’ my elegance and eloquence / But the elephant is in the room / The truth is in ya face when ya hear the British cannons go / BOOM",
+  "keywords": [],
+  "author": "German Meza <iam@germanamz.com>",
+  "license": "MIT",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/types/index.d.ts",
+  "module": "./dist/es/index.js",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/germanamz/api-builder.git"
+  },
+  "scripts": {
+    "build:cjs": "tsc -p tsconfig.json",
+    "build:es": "tsc -p tsconfig.es.json",
+    "clean": "rm -rf dist",
+    "build": "yarn run clean && yarn run build:cjs && yarn run build:es"
+  },
+  "bugs": {
+    "url": "https://github.com/germanamz/api-builder/issues"
+  },
+  "homepage": "https://github.com/germanamz/api-builder#readme",
+  "dependencies": {
+    "@the-api-builder/errno": "^1.0.0",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
+}

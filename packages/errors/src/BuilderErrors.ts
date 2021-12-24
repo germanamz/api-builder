@@ -1,10 +1,10 @@
-import type { KnownErrors, KnownErrorsMessages } from 'errno';
+import type { KnownErrors, KnownErrorsMessages } from '@the-api-builder/errno';
 import {
   ErrnoErrorCodes,
   ErrnoErrors,
   ErrnoErrorsMessages,
-  genErrorFactory,
-} from 'errno';
+  extendMessages,
+} from '@the-api-builder/errno';
 
 export type BuilderErrorsCodes =
   | ErrnoErrorCodes
@@ -36,9 +36,6 @@ export const BuilderErrorsMessages: KnownErrorsMessages = {
     'a router must be defined as a folder and have each supported method defined on independent files (check docs for info).',
 };
 
-const genError = genErrorFactory(BuilderErrorsMessages);
-
-export const genBuilderError = (code: string, details?: any) =>
-  genError(code, details && { details });
+extendMessages(BuilderErrorsMessages);
 
 export default BuilderErrors;

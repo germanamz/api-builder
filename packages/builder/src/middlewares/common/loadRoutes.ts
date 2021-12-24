@@ -1,9 +1,10 @@
+import { genError } from '@the-api-builder/errno';
+import { BuilderErrors } from '@the-api-builder/errors';
 import { Stage } from '@the-api-builder/registry';
 import { opendir } from 'fs/promises';
 import { basename, extname, join, resolve } from 'path';
 
 import RouterConfigFiles from '../../constants/RouterConfigFiles';
-import BuilderErrors, { genBuilderError } from '../../errors/BuilderErrors';
 import getConfig2 from '../../helpers/getConfig2';
 import getRouterConfigFiles from '../../helpers/getRouterConfigFiles';
 import CommonPipelineContext from '../../types/CommonPipelineContext';
@@ -32,7 +33,7 @@ const loadRoutes: Stage<CommonPipelineContext> = async (ctx) => {
         const endpoint = path;
 
         if (SupportedMethodsArray.indexOf(method as any) === -1) {
-          throw genBuilderError(BuilderErrors.ROUTER_AS_DIRECTORY);
+          throw genError(BuilderErrors.ROUTER_AS_DIRECTORY);
         }
 
         if (!routes[endpoint]) {

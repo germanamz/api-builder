@@ -1,7 +1,7 @@
+import { BuilderErrors } from '@the-api-builder/errors';
 import { Stage } from '@the-api-builder/registry';
 import { join } from 'path';
 
-import BuilderErrors from '../../errors/BuilderErrors';
 import getConfig from '../../helpers/getConfig';
 import { ApiConfig } from '../../types/ApiConfig';
 import CommonPipelineContext from '../../types/CommonPipelineContext';

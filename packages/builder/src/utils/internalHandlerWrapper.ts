@@ -1,4 +1,4 @@
-import { Errno, ErrnoErrors, genError } from 'errno';
+import { Errno, ErrnoErrors, genError } from '@the-api-builder/errno';
 
 import { ApiGatewayProxyResponse } from '../types/ApiGatewayProxyResponse';
 import { Handler } from '../types/Handler';
