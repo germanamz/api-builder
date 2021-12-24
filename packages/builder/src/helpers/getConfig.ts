@@ -1,6 +1,6 @@
+import { genError } from '@the-api-builder/errno';
 import { pathExists, readJSON } from 'fs-extra';
 
-import { genBuilderError } from '../errors/BuilderErrors';
 import Context from '../types/Context';
 
 const getConfig = async <R = any>(
@@ -24,7 +24,7 @@ const getConfig = async <R = any>(
   } else if (jsonPathExists) {
     config = await readJSON(jsonPath);
   } else if (notFoundErrorCode) {
-    throw genBuilderError(notFoundErrorCode);
+    throw genError(notFoundErrorCode);
   }
 
   return {
