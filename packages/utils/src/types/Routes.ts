@@ -1,5 +1,5 @@
+import type { SupportedHttpMethodsSet } from '../constants/SupportedHttpMethods';
 import RouterConfig from './RouterConfig';
-import type { SupportedHttpMethodsSet } from './SupportedHttpMethods';
 
 export type Route = {
   methods: SupportedHttpMethodsSet[];

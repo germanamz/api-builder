@@ -1,4 +1,4 @@
-const internalHandlerWrapper = require('./internalHandlerWrapper').default;
+import { internalHandlerWrapper } from '@the-api-builder/utils';
 <% methods.forEach((method) => {%>
 import method<%-method%> from './<%-method%>';<% });%>
 

@@ -1,7 +1,7 @@
 {
-  "name": "@the-api-builder/utils",
+  "name": "@the-api-builder/pipeline-dev",
   "version": "1.0.0",
-  "description": "Now I’m the model of a modern major general / The venerated Virginian veteran whose men are all / Lining up, to put me up on a pedestal / Writin’ letters to relatives / Embellishin’ my elegance and eloquence / But the elephant is in the room / The truth is in ya face when ya hear the British cannons go / BOOM",
+  "description": "The api builder dev pipeline",
   "keywords": [],
   "author": "German Meza <iam@germanamz.com>",
   "license": "MIT",
@@ -11,9 +11,6 @@
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/germanamz/api-builder.git"
@@ -29,14 +26,15 @@
   },
   "homepage": "https://github.com/germanamz/api-builder#readme",
   "dependencies": {
-    "@the-api-builder/errno": "^1.0.0",
-    "@the-api-builder/errors": "^1.0.0",
+    "@the-api-builder/pipeline-common": "^1.0.0",
+    "@the-api-builder/registry": "^1.0.0",
+    "@the-api-builder/utils": "^1.0.0",
+    "body-parser": "^1.19.1",
     "express": "^4.17.2",
-    "fs-extra": "^10.0.0",
+    "express-openapi": "^10.0.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.13",
     "typescript": "^4.5.4"
   }
 }

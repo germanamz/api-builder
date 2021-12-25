@@ -17,7 +17,7 @@ export type RequestBody = {
   required: boolean;
 };
 
-export type ActionConfig = {
+type ActionConfig = {
   parameters?: (
     | Parameter
     | RefObj
@@ -26,3 +26,5 @@ export type ActionConfig = {
   )[];
   requestBody?: RequestBody | RefObj;
 };
+
+export default ActionConfig;

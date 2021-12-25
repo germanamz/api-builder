@@ -1,14 +1,13 @@
-import marshalEvent from '../helpers/marshalEvent';
-import Context from '../types/Context';
-import { Handler } from '../types/Handler';
-import SupportedHttpMethods from '../types/SupportedHttpMethods';
+import { SupportedHttpMethodsSet } from '../constants/SupportedHttpMethods';
+import Handler from '../types/Handler';
 import internalHandlerWrapper from './internalHandlerWrapper';
+import marshalEvent from './marshalEvent';
 
-const routerFactory = (
+const routerFactory = <C extends { isDev: boolean }>(
   methods: {
-    [method in SupportedHttpMethods]: Handler<any>;
+    [method in SupportedHttpMethodsSet]: Handler<any>;
   },
-  buildCtx?: Context
+  buildCtx?: C
 ): Handler => {
   const wrappedHandlers: any = Object.entries(methods).reduce(
     (acc, [method, handler]) => ({
@@ -17,10 +16,11 @@ const routerFactory = (
     }),
     {}
   );
-  const eventMarshaller = marshalEvent(buildCtx);
+  const eventMarshaller = marshalEvent<C>(buildCtx);
   return async (event, ctx) => {
     const { httpMethod } = event;
-    const methodHandler = wrappedHandlers[httpMethod as SupportedHttpMethods];
+    const methodHandler =
+      wrappedHandlers[httpMethod as SupportedHttpMethodsSet];
 
     return methodHandler(eventMarshaller(event), ctx);
   };

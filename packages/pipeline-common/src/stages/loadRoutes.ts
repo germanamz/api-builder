@@ -5,16 +5,14 @@ import {
   getConfig,
   getRouterConfigFiles,
   RouterConfigFiles,
+  Routes,
+  SupportedHttpMethodsSet,
+  SupportedMethodsArray,
 } from '@the-api-builder/utils';
 import { opendir } from 'fs/promises';
 import { basename, extname, join, resolve } from 'path';
 
 import Context from '../Context';
-import Routes from '../Routes';
-import {
-  SupportedHttpMethodsSet,
-  SupportedMethodsArray,
-} from '../SupportedHttpMethods';
 
 const loadRoutes: Stage<Context> = async (ctx) => {
   const extensions = ['.js', '.ts'];

@@ -1,4 +1,4 @@
-export interface ApiConfig {
+interface ApiConfig {
   name: string;
   region: string;
   accountId: string;
@@ -11,3 +11,5 @@ export interface ApiConfig {
   externals: string[];
   schemas: { [name: string]: any };
 }
+
+export default ApiConfig;

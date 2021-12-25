@@ -1,6 +1,6 @@
-import { ActionConfig } from './ActionConfig';
-import { Statement } from './Statement';
-import { SupportedHttpMethodsSet } from './SupportedHttpMethods';
+import { SupportedHttpMethodsSet } from '../constants/SupportedHttpMethods';
+import ActionConfig from './ActionConfig';
+import Statement from './Statement';
 
 type RouterConfig = {
   schemas?: {
