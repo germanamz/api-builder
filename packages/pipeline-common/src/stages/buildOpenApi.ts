@@ -1,8 +1,7 @@
 import { Stage } from '@the-api-builder/registry';
+import { ApiConfig, SupportedHttpMethodsSet } from '@the-api-builder/utils';
 
-import { ApiConfig } from '../ApiConfig';
 import CommonPipelineContext from '../Context';
-import { SupportedHttpMethodsSet } from '../SupportedHttpMethods';
 
 const getLambdaArn = (lambda: string, api: ApiConfig) =>
   `arn:aws:apigateway:${api.region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${api.region}:${api.accountId}:function:${lambda}/invocations`;

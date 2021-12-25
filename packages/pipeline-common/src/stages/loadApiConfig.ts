@@ -1,9 +1,8 @@
 import { BuilderErrors } from '@the-api-builder/errors';
 import { Stage } from '@the-api-builder/registry';
-import { getConfig } from '@the-api-builder/utils';
+import { ApiConfig, getConfig } from '@the-api-builder/utils';
 import { join } from 'path';
 
-import { ApiConfig } from '../ApiConfig';
 import Context from '../Context';
 
 const loadApiConfig: Stage<Context> = async (ctx) => ({

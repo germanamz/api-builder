@@ -1,6 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 
 import { Stage } from '@the-api-builder/registry';
+import {
+  eventFromReq,
+  getConfig,
+  Handler,
+  Route,
+  RouterConfig,
+  routerFactory,
+  SupportedHttpMethodsSet,
+} from '@the-api-builder/utils';
 import bodyParser from 'body-parser';
 import express, { Express, Request, Response } from 'express';
 import { initialize } from 'express-openapi';
@@ -8,24 +17,12 @@ import { createServer, Server } from 'http';
 import { dirname, join, resolve } from 'path';
 import { promisify } from 'util';
 
-import eventFromReq from '../../helpers/eventFromReq';
-import getConfig from '../../helpers/getConfig';
-import BuildPipelineArgv from '../../types/argvs/DevPipelineArgv';
-import Context from '../../types/Context';
-import DevPipelineContext from '../../types/DevPipelineContext';
-import { Handler } from '../../types/Handler';
-import RouterConfig from '../../types/RouterConfig';
-import { Route } from '../../types/Routes';
-import routerFactory from '../../utils/routerFactory';
+import Context from '../Context';
 
 let server: Server;
 let app: Express;
 
-const initApi = async (
-  ctx: Context,
-  argv: BuildPipelineArgv,
-  operations: any
-) => {
+const initApi = async (ctx: Context, argv: any, operations: any) => {
   if (server?.listening) {
     console.log('Closing dev server');
     const close = promisify(server.close).bind(server);
@@ -90,16 +87,14 @@ const handleFile = async (
 
   if (/\.router\.[jt]s(on)?$/.test(filename)) {
     // A router config changed
-    routerConfig = (await getConfig(
-      ctx,
+    routerConfig = (await getConfig(ctx, [
       resolve(routesPath, filename),
-      resolve(routesPath, filename)
-    )) as RouterConfig;
+    ])) as RouterConfig;
     routes[endpoint].config = routerConfig;
     openapi.paths[endpoint] = {
       ...openapi.paths[endpoint],
       ...(route.methods.reduce(
-        (acc, method) => ({
+        (acc: any, method: SupportedHttpMethodsSet) => ({
           ...acc,
           [method.toLowerCase()]: {
             ...openapi.paths[endpoint][method.toLowerCase()],
@@ -128,7 +123,7 @@ const opWrapper =
     res.send(body);
   };
 
-const runDev: Stage<DevPipelineContext> = async (ctx) => {
+const runDev: Stage<Context> = async (ctx) => {
   const { routes, argv } = ctx;
   const operations: any = {
     'cors-operation': opWrapper(ctx as any, async () => ({

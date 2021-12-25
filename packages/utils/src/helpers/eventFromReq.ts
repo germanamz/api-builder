@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import { ApiGatewayProxyEvent } from '../types/ApiGatewayProxyEvent';
+import ApiGatewayProxyEvent from '../types/ApiGatewayProxyEvent';
 
 const eventFromReq = async (req: Request): Promise<ApiGatewayProxyEvent> =>
   ({

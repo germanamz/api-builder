@@ -40,6 +40,7 @@
     "@the-api-builder/errno": "^1.0.0",
     "@the-api-builder/errors": "^1.0.0",
     "@the-api-builder/pipeline-common": "^1.0.0",
+    "@the-api-builder/pipeline-dev": "^1.0.0",
     "@the-api-builder/registry": "^1.0.0",
     "archiver": "^5.3.0",
     "babel-loader": "^8.2.2",

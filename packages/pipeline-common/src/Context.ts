@@ -1,9 +1,7 @@
 import { BasicContext } from '@the-api-builder/registry';
+import { ApiConfig, Routes } from '@the-api-builder/utils';
 import { IFs } from 'memfs';
 import { IUnionFs } from 'unionfs';
-
-import { ApiConfig } from './ApiConfig';
-import Routes from './Routes';
 
 type CommonPipelineContext = BasicContext & {
   package: any;

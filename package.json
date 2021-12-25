@@ -6,6 +6,7 @@
     "dist"
   ],
   "scripts": {
+    "postinstall": "lerna bootstrap",
     "lint": "eslint ./packages/* --ext .ts"
   },
   "repository": {
