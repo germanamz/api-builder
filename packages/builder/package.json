@@ -1,6 +1,6 @@
 {
   "name": "@the-api-builder/builder",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Build and develop serverless REST API's on your local machine",
   "main": "./dist/cjs/index.js",
   "types": "./dist/types/index.d.ts",
@@ -33,12 +33,12 @@
     "url": "https://github.com/germanamz/api-builder/issues"
   },
   "dependencies": {
-    "@the-api-builder/errno": "^0.0.0",
-    "@the-api-builder/errors": "^0.0.0",
-    "@the-api-builder/pipeline-build": "^0.0.0",
-    "@the-api-builder/pipeline-common": "^0.0.0",
-    "@the-api-builder/pipeline-dev": "^0.0.0",
-    "@the-api-builder/registry": "^0.0.0",
+    "@the-api-builder/errno": "^0.1.0",
+    "@the-api-builder/errors": "^0.1.0",
+    "@the-api-builder/pipeline-build": "^0.1.0",
+    "@the-api-builder/pipeline-common": "^0.1.0",
+    "@the-api-builder/pipeline-dev": "^0.1.0",
+    "@the-api-builder/registry": "^0.1.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

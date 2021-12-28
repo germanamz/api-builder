@@ -1,6 +1,6 @@
 {
   "name": "@the-api-builder/pipeline-dev",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "The api builder dev pipeline",
   "keywords": [],
   "author": "German Meza <iam@germanamz.com>",
@@ -26,9 +26,9 @@
   },
   "homepage": "https://github.com/germanamz/api-builder#readme",
   "dependencies": {
-    "@the-api-builder/pipeline-common": "^0.0.0",
-    "@the-api-builder/registry": "^0.0.0",
-    "@the-api-builder/utils": "^0.0.0",
+    "@the-api-builder/pipeline-common": "^0.1.0",
+    "@the-api-builder/registry": "^0.1.0",
+    "@the-api-builder/utils": "^0.1.0",
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "express-openapi": "^10.0.0",
