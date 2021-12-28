@@ -4,9 +4,8 @@ require('ts-node').register({
   project: `${process.cwd()}/tsconfig.json`,
 });
 
+import registry from '@the-api-builder/builder';
 import minimist from 'minimist';
-
-import registry from './index';
 
 const {
   _: [actionToExecute],

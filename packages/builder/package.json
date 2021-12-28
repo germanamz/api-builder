@@ -1,6 +1,6 @@
 {
   "name": "@the-api-builder/builder",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Build and develop serverless REST API's on your local machine",
   "main": "./dist/cjs/index.js",
   "types": "./dist/types/index.d.ts",
@@ -16,12 +16,12 @@
   "author": "German Meza <iam@germanamz.com>",
   "homepage": "https://github.com/germanamz/api-builder#readme",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/germanamz/api-builder.git"
-  },
-  "bin": {
-    "api-builder": "./dist/cjs/cli.js"
   },
   "scripts": {
     "build:cjs": "tsc -p tsconfig.json",
@@ -39,8 +39,6 @@
     "@the-api-builder/pipeline-common": "^1.0.0",
     "@the-api-builder/pipeline-dev": "^1.0.0",
     "@the-api-builder/registry": "^1.0.0",
-    "minimist": "^1.2.5",
-    "ts-node": "^10.2.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
