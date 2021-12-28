@@ -1,6 +1,6 @@
 {
   "name": "@the-api-builder/registry",
-  "version": "1.1.0",
+  "version": "0.0.0",
   "keywords": [],
   "author": "German Meza <iam@germanamz.com>",
   "license": "MIT",
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/germanamz/api-builder#readme",
   "dependencies": {
-    "@the-api-builder/errno": "^1.1.0",
+    "@the-api-builder/errno": "^0.0.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
