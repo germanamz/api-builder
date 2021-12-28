@@ -4,17 +4,10 @@ import { ensureDir } from 'fs-extra';
 import { resolve } from 'path';
 import { list, map, Resource, TerraformGenerator } from 'terraform-generator';
 
-import BuildPipelineArgv from '../../types/argvs/BuildPipelineArgv';
-import BuildPipelineContext from '../../types/BuildPipelineContext';
-import Context from '../../types/Context';
+import Context from '../Context';
 
 const generateRouterTf =
-  (
-    ctx: Context,
-    argv: BuildPipelineArgv,
-    tfg: TerraformGenerator,
-    resApi: Resource
-  ) =>
+  (ctx: Context, argv: any, tfg: TerraformGenerator, resApi: Resource) =>
   (path: string) => {
     const { api, routes } = ctx;
     const { name: basename, config } = routes[path];
@@ -124,7 +117,7 @@ const generateRouterTf =
     });
   };
 
-const buildTerraform: Stage<BuildPipelineContext> = async (ctx) => {
+const buildTerraform: Stage<Context> = async (ctx) => {
   const { api, openapi, routes, argv } = ctx;
   const { name, output = 'dist' } = api;
   const schemaJson = JSON.stringify(openapi);
