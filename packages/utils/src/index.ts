@@ -9,6 +9,7 @@ export { default as getConfig } from './helpers/getConfig';
 export { default as getRouterConfigFiles } from './helpers/getRouterConfigFiles';
 export { default as internalHandlerWrapper } from './helpers/internalHandlerWrapper';
 export { default as marshalEvent } from './helpers/marshalEvent';
+export { default as pipe } from './helpers/pipe';
 export { default as routerFactory } from './helpers/routerFactory';
 export {
   default as ActionConfig,

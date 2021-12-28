@@ -1,17 +1,15 @@
 import { Stage } from '@the-api-builder/registry';
+import { pipe } from '@the-api-builder/utils';
 import * as fs from 'fs';
 import { ensureDir, writeJSON } from 'fs-extra';
 import { dirname, join, resolve } from 'path';
-import { pipeline } from 'stream';
 import { promisify } from 'util';
 import webpack from 'webpack';
 
-import BuildPipelineContext from '../../types/BuildPipelineContext';
-import common from '../../webpack/config/common.config';
+import Context from '../Context';
+import common from '../webpack/common.config';
 
-const pipe = promisify(pipeline);
-
-const buildRouters: Stage<BuildPipelineContext> = async (ctx) => {
+const buildRouters: Stage<Context> = async (ctx) => {
   const {
     routes,
     outFs,
