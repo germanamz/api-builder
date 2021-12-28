@@ -10,6 +10,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/germanamz/api-builder.git"
@@ -31,5 +34,5 @@
   "devDependencies": {
     "typescript": "^4.5.4"
   },
-  "gitHead": "7481ec18c4c20f2f41fa1f7cb923973f5f0a7549"
+  "gitHead": "78935e6113c3fa05777de1767b3eed031db4c16d"
 }
