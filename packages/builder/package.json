@@ -17,7 +17,8 @@
   "homepage": "https://github.com/germanamz/api-builder#readme",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "LICENSE.txt"
   ],
   "publishConfig": {
     "access": "public"

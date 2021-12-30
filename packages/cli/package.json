@@ -6,7 +6,8 @@
   "author": "German Meza <iam@germanamz.com>",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "LICENSE.txt"
   ],
   "publishConfig": {
     "access": "public"
