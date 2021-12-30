@@ -1,3 +1,4 @@
+import CommonPipeline from '@the-api-builder/pipeline-common';
 import { Pipeline } from '@the-api-builder/registry';
 
 import Context from './Context';
@@ -12,4 +13,4 @@ pipeline.add('buildRouters', buildRouters);
 pipeline.add('buildTerraform', buildTerraform);
 
 export { Context };
-export default pipeline;
+export default Pipeline.concat<Context>(CommonPipeline, pipeline);
