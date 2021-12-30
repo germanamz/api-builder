@@ -2570,14 +2570,14 @@ express-normalize-query-params-middleware@^0.5.0:
   resolved "https://registry.yarnpkg.com/express-normalize-query-params-middleware/-/express-normalize-query-params-middleware-0.5.1.tgz#dbe1e8139aecb234fb6adb5c0059c75db9733d2a"
   integrity sha1-2+HoE5rssjT7attcAFnHXblzPSo=
 
-express-openapi@^9.3.0:
-  version "9.3.1"
-  resolved "https://registry.yarnpkg.com/express-openapi/-/express-openapi-9.3.1.tgz#3e0033ec07f52ab38acf68a1331a88ec95870f34"
-  integrity sha512-GmI7n7fjom95M0htBwCDFt7wgMLiJeqRRFQ8CVHhKDogGCygeYCgl2Dzbavk2wWwrOaabYMjXG4u3PzvwiALCA==
+express-openapi@9.3.0:
+  version "9.3.0"
+  resolved "https://registry.yarnpkg.com/express-openapi/-/express-openapi-9.3.0.tgz#7b316a1ff5fb3cbb98f12a807cfe8483b1512ab8"
+  integrity sha512-92H8nuvO1vVMutapDqQXESOxFnaC4/tZAXSi7kJMD+xWXZwNwmuinCxbfQc7JyUY6Y3+vjFXqJ7xeTCpsUhSiA==
   dependencies:
     express-normalize-query-params-middleware "^0.5.0"
-    openapi-framework "^9.3.1"
-    openapi-types "^9.3.1"
+    openapi-framework "^9.3.0"
+    openapi-types "^9.3.0"
 
 express@^4.17.2:
   version "4.17.2"
@@ -4334,7 +4334,7 @@ openapi-default-setter@^9.3.1:
   dependencies:
     openapi-types "^9.3.1"
 
-openapi-framework@^9.3.1:
+openapi-framework@^9.3.0:
   version "9.3.1"
   resolved "https://registry.yarnpkg.com/openapi-framework/-/openapi-framework-9.3.1.tgz#9bcbf1d91edacf0bf2e206b65c69467df2ce507c"
   integrity sha512-cnDQQSHNhwS4jn5IE1gTO4mMTolbPbMf3EzVCMNmEcN09IKGQYmtiVSxxL+uGFiHHlpPfOTSsWrvTCiwbhRtyA==
@@ -4405,7 +4405,7 @@ openapi-security-handler@^9.3.1:
   dependencies:
     openapi-types "^9.3.1"
 
-openapi-types@^9.3.1:
+openapi-types@^9.3.0, openapi-types@^9.3.1:
   version "9.3.1"
   resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-9.3.1.tgz#617ae6db3efd3e3f68e849f65ced58801d01d3cf"
   integrity sha512-/Yvsd2D7miYB4HLJ3hOOS0+vnowQpaT75FsHzr/y5M9P4q9bwa7RcbW2YdH6KZBn8ceLbKGnHxMZ1CHliGHUFw==
