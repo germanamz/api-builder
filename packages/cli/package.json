@@ -1,6 +1,6 @@
 {
   "name": "@the-api-builder/cli",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Now I’m the model of a modern major general / The venerated Virginian veteran whose men are all / Lining up, to put me up on a pedestal / Writin’ letters to relatives / Embellishin’ my elegance and eloquence / But the elephant is in the room / The truth is in ya face when ya hear the British cannons go / BOOM",
   "keywords": [],
   "author": "German Meza <iam@germanamz.com>",
@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/germanamz/api-builder#readme",
   "dependencies": {
-    "@the-api-builder/builder": "^0.1.4",
+    "@the-api-builder/builder": "^0.1.5",
     "minimist": "^1.2.5",
     "ts-node": "^10.4.0",
     "tslib": "^2.3.1"
