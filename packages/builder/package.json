@@ -1,6 +1,6 @@
 {
   "name": "@the-api-builder/builder",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Build and develop serverless REST API's on your local machine",
   "main": "./dist/cjs/index.js",
   "types": "./dist/types/index.d.ts",
@@ -40,7 +40,7 @@
     "@the-api-builder/errors": "^0.1.1",
     "@the-api-builder/pipeline-build": "^0.1.1",
     "@the-api-builder/pipeline-common": "^0.1.1",
-    "@the-api-builder/pipeline-dev": "^0.1.1",
+    "@the-api-builder/pipeline-dev": "^0.1.2",
     "@the-api-builder/registry": "^0.1.1",
     "tslib": "^2.3.1"
   },
