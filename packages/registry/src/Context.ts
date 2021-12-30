@@ -1,4 +1,5 @@
 type Context = {
+  action: string;
   argv: any;
 };
 

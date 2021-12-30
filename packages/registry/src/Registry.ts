@@ -20,6 +20,7 @@ class Registry<C extends Context> {
     }
 
     let ctx = {
+      action: name,
       argv,
     } as C;
 
