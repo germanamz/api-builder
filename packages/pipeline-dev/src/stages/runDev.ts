@@ -126,7 +126,7 @@ const opWrapper =
 const runDev: Stage<Context> = async (ctx) => {
   const { routes, argv } = ctx;
   const operations: any = {
-    'cors-operation': opWrapper(ctx as any, async () => ({
+    'cors-operation': opWrapper(ctx, async () => ({
       statusCode: 200,
       body: 'ok',
       isBase64Encoded: false,
@@ -135,11 +135,11 @@ const runDev: Stage<Context> = async (ctx) => {
   };
 
   for await (const endpoint of Object.keys(routes)) {
-    const [op, handler] = await handleFile(ctx as any, endpoint, true);
-    operations[op] = opWrapper(ctx as any, handler);
+    const [op, handler] = await handleFile(ctx, endpoint, true);
+    operations[op] = opWrapper(ctx, handler);
   }
 
-  await initApi(ctx as any, argv, operations);
+  await initApi(ctx, argv, operations);
 };
 
 export default runDev;
