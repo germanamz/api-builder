@@ -1,4 +1,4 @@
-type ApiGatewayProxyEvent = {
+export type ApiGatewayProxyEvent = {
   resource: string;
   path: string;
   httpMethod: string;
@@ -55,5 +55,3 @@ type ApiGatewayProxyEvent = {
   body: any;
   isBase64Encoded: boolean;
 };
-
-export default ApiGatewayProxyEvent;

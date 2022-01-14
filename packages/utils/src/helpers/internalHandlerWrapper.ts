@@ -1,8 +1,8 @@
 import { Errno, ErrnoErrors, genError } from '@the-api-builder/errno';
 
-import ApiGatewayProxyResponse from '../types/ApiGatewayProxyResponse';
-import Handler from '../types/Handler';
-import HandlerEvent from '../types/HandlerEvent';
+import { ApiGatewayProxyResponse } from '../types/ApiGatewayProxyResponse';
+import { Handler } from '../types/Handler';
+import { HandlerEvent } from '../types/HandlerEvent';
 
 const internalHandlerWrapper =
   (handler: Handler<any>) =>

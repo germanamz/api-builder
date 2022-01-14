@@ -1,5 +1,5 @@
-import ApiGatewayProxyEvent from '../types/ApiGatewayProxyEvent';
-import HandlerEvent from '../types/HandlerEvent';
+import { ApiGatewayProxyEvent } from '../types/ApiGatewayProxyEvent';
+import { HandlerEvent } from '../types/HandlerEvent';
 
 const marshalEvent =
   <C extends { isDev: boolean }>(buildCtx: C = {} as C) =>

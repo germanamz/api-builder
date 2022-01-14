@@ -1,5 +1,5 @@
 import { SupportedHttpMethodsSet } from '../constants/SupportedHttpMethods';
-import Handler from '../types/Handler';
+import { Handler } from '../types/Handler';
 import internalHandlerWrapper from './internalHandlerWrapper';
 import marshalEvent from './marshalEvent';
 
