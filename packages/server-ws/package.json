@@ -12,6 +12,9 @@
     "dist",
     "LICENSE.txt"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/germanamz/api-builder.git"
@@ -35,5 +38,6 @@
     "@the-api-builder/utils": "^0.2.0",
     "tslib": "^2.3.1",
     "ws": "^8.4.0"
-  }
+  },
+  "gitHead": "0a348e1f25d1613e9f06e8f7a19ada88fa2f63ad"
 }
