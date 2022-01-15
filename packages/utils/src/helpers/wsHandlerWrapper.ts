@@ -1,3 +1,5 @@
+import { Errno } from '@the-api-builder/errno';
+
 import { ApiGatewayProxyResponse } from '../types/ApiGatewayProxyResponse';
 import { WsEvent } from '../types/WsEvent';
 import { WsHandler } from '../types/WsHandler';
@@ -21,8 +23,22 @@ const wsHandlerWrapper =
         isBase64Encoded: false,
         statusCode: 200,
       };
-    } catch (e) {
+    } catch (e: any) {
+      if (e instanceof Errno || e.isErrno) {
+        return {
+          statusCode: 500,
+          isBase64Encoded: false,
+          ...e.extra,
+          headers: {
+            'Content-Type': 'application/json',
+            ...(e.extra?.headers || {}),
+          },
+          body: JSON.stringify(e.toJSON()),
+        };
+      }
+
       console.error(e);
+
       return {
         statusCode: 500,
         body: 'Internal error',

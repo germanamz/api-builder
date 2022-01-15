@@ -1,3 +1,3 @@
 import { WsHandler } from './WsHandler';
 
-export type Actions = { [action: string]: WsHandler<any> };
+export type WsActions = { [action: string]: WsHandler<any> };
