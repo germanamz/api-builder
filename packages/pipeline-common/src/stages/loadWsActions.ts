@@ -10,7 +10,9 @@ const loadWsActions: Stage<Context> = async (ctx) => {
   const wsPath = resolve(process.cwd(), 'ws');
 
   if (!existsSync(wsPath)) {
-    return {};
+    return {
+      ws: ctx.api.ws,
+    };
   }
 
   const wsActions: Context['wsActions'] = {};

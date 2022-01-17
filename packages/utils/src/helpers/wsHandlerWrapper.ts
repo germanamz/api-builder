@@ -1,14 +1,12 @@
 import { Errno } from '@the-api-builder/errno';
 
-import { ApiGatewayProxyResponse } from '../types/ApiGatewayProxyResponse';
+import { HandlerResponse } from '../types/HandlerResponse';
 import { WsEvent } from '../types/WsEvent';
 import { WsHandler } from '../types/WsHandler';
 import parseJson from './parseJson';
 
 const wsHandlerWrapper =
-  (
-    handler: WsHandler<any>
-  ): WsHandler<Omit<ApiGatewayProxyResponse, 'headers'>> =>
+  (handler: WsHandler<any>): WsHandler<Omit<HandlerResponse, 'headers'>> =>
   async (event: WsEvent, ctx: any) => {
     const ev: WsEvent = {
       ...event,
@@ -29,10 +27,6 @@ const wsHandlerWrapper =
           statusCode: 500,
           isBase64Encoded: false,
           ...e.extra,
-          headers: {
-            'Content-Type': 'application/json',
-            ...(e.extra?.headers || {}),
-          },
           body: JSON.stringify(e.toJSON()),
         };
       }

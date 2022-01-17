@@ -31,7 +31,6 @@
   "dependencies": {
     "@the-api-builder/builder": "^0.2.0",
     "minimist": "^1.2.5",
-    "ts-node": "^10.4.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

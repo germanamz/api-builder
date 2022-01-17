@@ -1,4 +1,4 @@
-export type ApiGatewayProxyEvent = {
+export type RestEvent = {
   resource: string;
   path: string;
   httpMethod: string;

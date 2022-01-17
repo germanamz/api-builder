@@ -1,0 +1,27 @@
+{
+  "name": "@the-api-builder/playground",
+  "version": "0.0.0",
+  "private": true,
+  "keywords": [],
+  "author": "German Meza <iam@germanamz.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/germanamz/api-builder.git"
+  },
+  "scripts": {
+    "start": "api-builder dev"
+  },
+  "bugs": {
+    "url": "https://github.com/germanamz/api-builder/issues"
+  },
+  "homepage": "https://github.com/germanamz/api-builder#readme",
+  "dependencies": {
+    "@the-api-builder/cli": "^0.2.0",
+    "@the-api-builder/utils": "^0.2.0",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
+}

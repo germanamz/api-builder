@@ -1,9 +1,9 @@
-import { ApiGatewayProxyEvent } from '../types/ApiGatewayProxyEvent';
-import { HandlerEvent } from '../types/HandlerEvent';
+import { RestEvent } from '../types/RestEvent';
+import { RestHandlerEvent } from '../types/RestHandlerEvent';
 
 const marshalEvent =
   <C extends { isDev: boolean }>(buildCtx: C = {} as C) =>
-  (event: ApiGatewayProxyEvent): HandlerEvent => ({
+  (event: RestEvent): RestHandlerEvent => ({
     ...event,
     body:
       !buildCtx.isDev &&

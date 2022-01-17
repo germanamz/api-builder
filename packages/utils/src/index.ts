@@ -5,6 +5,7 @@ export {
   SupportedHttpMethodsSet,
   SupportedMethodsArray,
 } from './constants/SupportedHttpMethods';
+export { default as buildRouter } from './helpers/buildRouter';
 export { default as eventFromReq } from './helpers/eventFromReq';
 export { default as genWsEvent } from './helpers/genWsEvent';
 export { default as genWsReqContext } from './helpers/genWsReqContext';
@@ -13,6 +14,7 @@ export { default as getRouterConfigFiles } from './helpers/getRouterConfigFiles'
 export { default as getShortMonth } from './helpers/getShortMonth';
 export { default as internalHandlerWrapper } from './helpers/internalHandlerWrapper';
 export { default as marshalEvent } from './helpers/marshalEvent';
+export { default as opWrapper } from './helpers/opWrapper';
 export { default as parseJson } from './helpers/parseJson';
 export { default as pipe } from './helpers/pipe';
 export { default as routerFactory } from './helpers/routerFactory';
@@ -26,10 +28,10 @@ export {
   RequestBody,
 } from './types/ActionConfig';
 export { ApiConfig } from './types/ApiConfig';
-export { ApiGatewayProxyEvent } from './types/ApiGatewayProxyEvent';
-export { ApiGatewayProxyResponse } from './types/ApiGatewayProxyResponse';
-export { Handler } from './types/Handler';
-export { HandlerEvent } from './types/HandlerEvent';
+export { HandlerResponse } from './types/HandlerResponse';
+export { RestEvent } from './types/RestEvent';
+export { RestHandler } from './types/RestHandler';
+export { RestHandlerEvent } from './types/RestHandlerEvent';
 export { RouterConfig } from './types/RouterConfig';
 export { Route, Routes } from './types/Routes';
 export { Statement } from './types/Statement';
