@@ -1,3 +1,8 @@
+/* eslint-disable import/first */
+require('ts-node').register({
+  project: `${process.cwd()}/tsconfig.json`,
+});
+
 import BuildPipeline, {
   Context as BuildPipelineContext,
 } from '@the-api-builder/pipeline-build';

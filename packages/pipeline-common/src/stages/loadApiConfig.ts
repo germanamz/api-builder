@@ -6,11 +6,15 @@ import { join } from 'path';
 import Context from '../Context';
 
 const loadApiConfig: Stage<Context> = async (ctx) => ({
-  api: (await getConfig<ApiConfig>(
-    ctx as any,
-    [join(process.cwd(), '.api.js'), join(process.cwd(), '.api.json')],
+  api: await getConfig<Context, ApiConfig>(
+    ctx,
+    [
+      join(process.cwd(), '.api.js'),
+      join(process.cwd(), '.api.ts'),
+      join(process.cwd(), '.api.json'),
+    ],
     BuilderErrors.API_CONFIG_NOT_FOUND
-  )) as ApiConfig,
+  ),
 });
 
 export default loadApiConfig;

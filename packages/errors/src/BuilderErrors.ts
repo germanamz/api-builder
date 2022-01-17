@@ -30,7 +30,8 @@ export const BuilderErrorsMessages: KnownErrorsMessages = {
   BUILD: 'Building error',
   LOAD: 'Load error',
   PACKAGE_NOT_FOUND: 'package.json not found on cwd',
-  API_CONFIG_NOT_FOUND: 'api config not found on cwd (.api.js or .api.json)',
+  API_CONFIG_NOT_FOUND:
+    'api config not found on cwd (.api., .api.json or .api.ts)',
   METHOD_NOT_SUPPORTED: 'the method your trying to define is not supported',
   ROUTER_AS_DIRECTORY:
     'a router must be defined as a folder and have each supported method defined on independent files (check docs for info).',

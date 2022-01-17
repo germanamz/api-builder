@@ -1,9 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable import/first */
-require('ts-node').register({
-  project: `${process.cwd()}/tsconfig.json`,
-});
-
 import registry from '@the-api-builder/builder';
 import minimist from 'minimist';
 

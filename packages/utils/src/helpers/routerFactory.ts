@@ -1,14 +1,14 @@
 import { SupportedHttpMethodsSet } from '../constants/SupportedHttpMethods';
-import Handler from '../types/Handler';
+import { RestHandler } from '../types/RestHandler';
 import internalHandlerWrapper from './internalHandlerWrapper';
 import marshalEvent from './marshalEvent';
 
 const routerFactory = <C extends { isDev: boolean }>(
   methods: {
-    [method in SupportedHttpMethodsSet]: Handler<any>;
+    [method in SupportedHttpMethodsSet]: RestHandler<any>;
   },
   buildCtx?: C
-): Handler => {
+): RestHandler => {
   const wrappedHandlers: any = Object.entries(methods).reduce(
     (acc, [method, handler]) => ({
       ...acc,

@@ -1,0 +1,43 @@
+{
+  "name": "@the-api-builder/server-ws",
+  "version": "0.1.0",
+  "keywords": [],
+  "description": "The api builder websocket server",
+  "author": "German Meza <iam@germanamz.com>",
+  "license": "MIT",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/types/index.d.ts",
+  "module": "./dist/es/index.js",
+  "files": [
+    "dist",
+    "LICENSE.txt"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/germanamz/api-builder.git"
+  },
+  "scripts": {
+    "build:cjs": "tsc -p tsconfig.json",
+    "build:es": "tsc -p tsconfig.es.json",
+    "clean": "rm -rf dist",
+    "build": "yarn run clean && yarn run build:cjs && yarn run build:es"
+  },
+  "bugs": {
+    "url": "https://github.com/germanamz/api-builder/issues"
+  },
+  "homepage": "https://github.com/germanamz/api-builder#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.8",
+    "@types/ws": "^8.2.2",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "@the-api-builder/utils": "^0.2.0",
+    "tslib": "^2.3.1",
+    "ws": "^8.4.0"
+  },
+  "gitHead": "0a348e1f25d1613e9f06e8f7a19ada88fa2f63ad"
+}

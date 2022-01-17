@@ -1,15 +1,15 @@
 import { Errno, ErrnoErrors, genError } from '@the-api-builder/errno';
 
-import ApiGatewayProxyResponse from '../types/ApiGatewayProxyResponse';
-import Handler from '../types/Handler';
-import HandlerEvent from '../types/HandlerEvent';
+import { HandlerResponse } from '../types/HandlerResponse';
+import { RestHandler } from '../types/RestHandler';
+import { RestHandlerEvent } from '../types/RestHandlerEvent';
 
 const internalHandlerWrapper =
-  (handler: Handler<any>) =>
+  (handler: RestHandler<any>) =>
   async (
-    event: HandlerEvent,
+    event: RestHandlerEvent,
     handlerCtx: any
-  ): Promise<ApiGatewayProxyResponse> => {
+  ): Promise<HandlerResponse> => {
     try {
       const res = await handler(event, handlerCtx);
       return {

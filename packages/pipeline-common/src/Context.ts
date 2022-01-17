@@ -11,6 +11,8 @@ type CommonPipelineContext = BasicContext & {
   inFs: IFs;
   outFs: IFs;
   routes: Routes;
+  wsActions?: { [action: string]: string };
+  ws?: boolean;
   openapi: any;
 };
 

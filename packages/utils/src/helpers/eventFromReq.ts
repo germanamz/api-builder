@@ -1,8 +1,8 @@
 import { Request } from 'express';
 
-import ApiGatewayProxyEvent from '../types/ApiGatewayProxyEvent';
+import { RestEvent } from '../types/RestEvent';
 
-const eventFromReq = async (req: Request): Promise<ApiGatewayProxyEvent> =>
+const eventFromReq = async (req: Request): Promise<RestEvent> =>
   ({
     body: req.body,
     isBase64Encoded: false,
@@ -16,6 +16,6 @@ const eventFromReq = async (req: Request): Promise<ApiGatewayProxyEvent> =>
     path: req.path,
     requestContext: {},
     stageVariables: {},
-  } as ApiGatewayProxyEvent);
+  } as RestEvent);
 
 export default eventFromReq;

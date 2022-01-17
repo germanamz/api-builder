@@ -1,8 +1,8 @@
 import { SupportedHttpMethodsSet } from '../constants/SupportedHttpMethods';
-import ActionConfig from './ActionConfig';
-import Statement from './Statement';
+import { ActionConfig } from './ActionConfig';
+import { Statement } from './Statement';
 
-type RouterConfig = {
+export type RouterConfig = {
   schemas?: {
     [key: string]: any;
   };
@@ -14,5 +14,3 @@ type RouterConfig = {
   };
   policyStatements: Statement[];
 };
-
-export default RouterConfig;
