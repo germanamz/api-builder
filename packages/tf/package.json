@@ -1,6 +1,6 @@
 {
-  "name": "@the-api-builder/registry",
-  "version": "0.1.3",
+  "name": "@the-api-builder/tf",
+  "version": "0.0.0",
   "keywords": [],
   "author": "German Meza <iam@germanamz.com>",
   "license": "MIT",
@@ -28,14 +28,12 @@
     "url": "https://github.com/germanamz/api-builder/issues"
   },
   "homepage": "https://github.com/germanamz/api-builder#readme",
-  "dependencies": {
-    "@the-api-builder/errno": "^0.1.2",
-    "lodash": "^4.17.21",
-    "tslib": "^2.3.1"
-  },
   "devDependencies": {
-    "@types/lodash": "^4.14.178",
     "typescript": "^4.5.4"
   },
-  "gitHead": "78935e6113c3fa05777de1767b3eed031db4c16d"
+  "dependencies": {
+    "@the-api-builder/utils": "^0.2.0",
+    "terraform-generator": "^5.1.0",
+    "tslib": "^2.3.1"
+  }
 }

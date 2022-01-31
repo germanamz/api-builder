@@ -1,14 +1,15 @@
 import { Stage } from '@the-api-builder/registry';
+import { RoutesFolderName } from '@the-api-builder/utils';
 import ejs from 'ejs';
 import { readFile } from 'fs-extra';
 import { join, resolve } from 'path';
 
-import Context from '../Context';
+import { Context } from '../Context';
 
 const prepareRouters: Stage<Context> = async (ctx) => {
   const { routes, inFs } = ctx;
   const routersPaths = [];
-  const routesFolder = resolve(process.cwd(), 'routes');
+  const routesFolder = resolve(process.cwd(), RoutesFolderName);
   const routerTemplate = ejs.compile(
     await readFile(resolve(__dirname, '../templates/router.ts.ejs'), 'utf8')
   );

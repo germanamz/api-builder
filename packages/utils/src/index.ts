@@ -1,5 +1,6 @@
 export { default as Extensions } from './constants/Extensions';
 export { default as RouterConfigFiles } from './constants/RouterConfigFiles';
+export { default as RoutesFolderName } from './constants/RoutesFolderName';
 export {
   default as SupportedHttpMethods,
   SupportedHttpMethodsSet,
@@ -7,6 +8,7 @@ export {
 } from './constants/SupportedHttpMethods';
 export { default as buildRouter } from './helpers/buildRouter';
 export { default as eventFromReq } from './helpers/eventFromReq';
+export { default as filterExternals } from './helpers/filterExternals';
 export { default as genWsEvent } from './helpers/genWsEvent';
 export { default as genWsReqContext } from './helpers/genWsReqContext';
 export { default as getConfig } from './helpers/getConfig';

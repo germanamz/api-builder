@@ -7,6 +7,4 @@ export type Route = {
   name: string;
 };
 
-export type Routes = {
-  [path: string]: Route;
-};
+export type Routes = Record<string, Route>;

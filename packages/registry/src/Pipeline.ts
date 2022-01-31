@@ -1,3 +1,5 @@
+import uniqBy from 'lodash/uniqBy';
+
 import Context from './Context';
 import Stage from './Stage';
 
@@ -63,7 +65,9 @@ class Pipeline<C extends Context> {
       [] as [string, Stage<any>][]
     );
 
-    return new Pipeline<C>(entries as [string, Stage<any>][]);
+    return new Pipeline<C>(
+      uniqBy(entries, ([, fn]) => fn) as [string, Stage<any>][]
+    );
   }
 }
 
