@@ -1,6 +1,6 @@
 {
   "name": "@the-api-builder/tf-rest",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "keywords": [],
   "author": "German Meza <iam@germanamz.com>",
   "license": "MIT",
@@ -32,8 +32,8 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@the-api-builder/tf": "^0.0.0",
-    "@the-api-builder/utils": "^0.2.0",
+    "@the-api-builder/tf": "^0.1.0",
+    "@the-api-builder/utils": "^0.3.0",
     "terraform-generator": "^5.1.0",
     "tslib": "^2.3.1"
   }
