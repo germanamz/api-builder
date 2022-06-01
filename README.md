@@ -1,5 +1,9 @@
 # api-builder
-It defines a CLI interface and framework for internal apis using npm and terraform to manage, develop and deploy REST API's.
+`api-builder` aims to take some of the best parts of [Loopback](https://loopback.io/) and the serverless world into the table.
+
+Currently, only AWS serverless services are supported... why? Because I have the most experience with them.
+
+It defines a CLI interface and framework to use with npm and terraform to manage, develop and deploy REST API's (and their underlying infrastructure).
 
 ## Prerequisites
 
@@ -15,8 +19,9 @@ To use `api-builder` its necessary to create your api repo with le following str
 
 ```
 <project_root>/
-├── routes // The folder for all lambdas
-│   └── <../../action_lambda> // A folder for each lambda with the filesystem path as http path
+├── routes // All routes go here
+│   └── <../../[method].{js,ts} // Filesystem path as the http path
+├── .api.{js,ts,json} // This file exports an ApiConfig from @the-api-builder/utils
 ├── package.json
 └── package-lock.json / yarn.lock
 ```
@@ -52,6 +57,8 @@ GET  /Products/{productId}
 GET  /Users/
 POST /Vouchers/
 ```
+# Config
+Config is defined on `<project_root>/.api.{js,ts,json}`, the recommended use is `.ts` for more flexibility and easy access to the `ApiConfig` type definition.
 
 # Docker builder
 To build dependencies that depend on AWS arm arch we use the public Docker image provided by AWS to run the installation process.
