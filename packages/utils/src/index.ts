@@ -1,3 +1,4 @@
+export { default as AsResponseObject } from './constants/AsResponseObject';
 export { default as Extensions } from './constants/Extensions';
 export { default as RouterConfigFiles } from './constants/RouterConfigFiles';
 export { default as RoutesFolderName } from './constants/RoutesFolderName';

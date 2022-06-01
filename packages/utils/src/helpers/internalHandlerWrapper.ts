@@ -1,5 +1,6 @@
 import { Errno, ErrnoErrors, genError } from '@the-api-builder/errno';
 
+import AsResponseObject from '../constants/AsResponseObject';
 import { HandlerResponse } from '../types/HandlerResponse';
 import { RestHandler } from '../types/RestHandler';
 import { RestHandlerEvent } from '../types/RestHandlerEvent';
@@ -11,12 +12,16 @@ const internalHandlerWrapper =
     handlerCtx: any
   ): Promise<HandlerResponse> => {
     try {
-      const res = await handler(event, handlerCtx);
+      const res = { ...(await handler(event, handlerCtx)) };
+
+      if (res[AsResponseObject]) {
+        delete res[AsResponseObject];
+        return res;
+      }
+
       return {
         isBase64Encoded: false,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         statusCode: 200,
         body: typeof res === 'string' ? res : JSON.stringify(res),
       };
