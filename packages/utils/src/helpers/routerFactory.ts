@@ -8,7 +8,7 @@ const routerFactory = <C extends { isDev: boolean }>(
     [method in SupportedHttpMethodsSet]: RestHandler<any>;
   },
   buildCtx?: C
-): RestHandler => {
+): RestHandler<any> => {
   const wrappedHandlers: any = Object.entries(methods).reduce(
     (acc, [method, handler]) => ({
       ...acc,
