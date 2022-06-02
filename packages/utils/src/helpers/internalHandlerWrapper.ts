@@ -12,9 +12,9 @@ const internalHandlerWrapper =
     handlerCtx: any
   ): Promise<HandlerResponse> => {
     try {
-      const res = { ...(await handler(event, handlerCtx)) };
+      const res = await handler(event, handlerCtx);
 
-      if (res[AsResponseObject]) {
+      if (typeof res === 'object' && res[AsResponseObject]) {
         delete res[AsResponseObject];
         return res;
       }
