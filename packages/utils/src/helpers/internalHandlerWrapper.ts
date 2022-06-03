@@ -4,6 +4,7 @@ import AsResponseObject from '../constants/AsResponseObject';
 import { HandlerResponse } from '../types/HandlerResponse';
 import { RestHandler } from '../types/RestHandler';
 import { RestHandlerEvent } from '../types/RestHandlerEvent';
+import prepareEventForHandler from './prepareEventForHandler';
 
 const internalHandlerWrapper =
   (handler: RestHandler<any>) =>
@@ -12,7 +13,7 @@ const internalHandlerWrapper =
     handlerCtx: any
   ): Promise<HandlerResponse> => {
     try {
-      const res = await handler(event, handlerCtx);
+      const res = await handler(prepareEventForHandler(event), handlerCtx);
 
       if (typeof res === 'object' && res[AsResponseObject]) {
         delete res[AsResponseObject];

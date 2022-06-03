@@ -2,10 +2,14 @@ import { Request } from 'express';
 
 import { RestEvent } from '../types/RestEvent';
 
-const eventFromReq = async (req: Request): Promise<RestEvent> =>
-  ({
-    body: req.body,
-    isBase64Encoded: false,
+const eventFromReq = async (req: Request): Promise<RestEvent> => {
+  const isBase64Encoded =
+    req.headers['content-type'] === 'application/octet-stream';
+  return {
+    body: isBase64Encoded
+      ? (req.body as Buffer).toString('base64')
+      : req.body.toString(),
+    isBase64Encoded,
     resource: '',
     pathParameters: req.params,
     queryStringParameters: req.query,
@@ -16,6 +20,7 @@ const eventFromReq = async (req: Request): Promise<RestEvent> =>
     path: req.path,
     requestContext: {},
     stageVariables: {},
-  } as RestEvent);
+  } as RestEvent;
+};
 
 export default eventFromReq;

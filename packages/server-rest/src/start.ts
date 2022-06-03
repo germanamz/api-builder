@@ -1,5 +1,4 @@
 import { opWrapper, RestHandler } from '@the-api-builder/utils';
-import bodyParser from 'body-parser';
 import { initialize } from 'express-openapi';
 
 import app from './app';
@@ -28,10 +27,6 @@ const start = async (
     app,
     apiDoc,
     externalSchemas: schemas,
-    consumesMiddleware: {
-      'application/json': bodyParser.json(),
-      'text/text': bodyParser.text(),
-    },
     operations: ops,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     errorMiddleware(err, req, res, next) {
