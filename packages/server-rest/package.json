@@ -1,6 +1,6 @@
 {
   "name": "@the-api-builder/server-rest",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "keywords": [],
   "author": "German Meza <iam@germanamz.com>",
   "license": "MIT",
@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/germanamz/api-builder#readme",
   "dependencies": {
-    "@the-api-builder/utils": "^0.6.0",
+    "@the-api-builder/utils": "^0.6.1",
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "express-openapi": "^10.1.0",
