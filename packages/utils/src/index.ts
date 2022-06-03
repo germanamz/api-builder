@@ -8,6 +8,7 @@ export {
   SupportedMethodsArray,
 } from './constants/SupportedHttpMethods';
 export { default as buildRouter } from './helpers/buildRouter';
+export { default as entriesToObject } from './helpers/entriesToObject';
 export { default as eventFromReq } from './helpers/eventFromReq';
 export { default as filterExternals } from './helpers/filterExternals';
 export { default as genWsEvent } from './helpers/genWsEvent';
