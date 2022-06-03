@@ -52,6 +52,6 @@ export type RestEvent = {
   };
   pathParameters: { [key: string]: string };
   stageVariables: { [key: string]: string };
-  body: string;
+  body: string | undefined;
   isBase64Encoded: boolean;
 };

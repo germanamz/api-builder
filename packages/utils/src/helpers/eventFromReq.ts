@@ -7,8 +7,8 @@ const eventFromReq = async (req: Request): Promise<RestEvent> => {
     req.headers['content-type'] === 'application/octet-stream';
   return {
     body: isBase64Encoded
-      ? (req.body as Buffer).toString('base64')
-      : req.body.toString(),
+      ? (req.body as Buffer)?.toString('base64')
+      : req.body?.toString(),
     isBase64Encoded,
     resource: '',
     pathParameters: req.params,
