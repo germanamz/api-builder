@@ -20,6 +20,7 @@ export { default as marshalEvent } from './helpers/marshalEvent';
 export { default as opWrapper } from './helpers/opWrapper';
 export { default as parseJson } from './helpers/parseJson';
 export { default as pipe } from './helpers/pipe';
+export { default as prepareEventForHandler } from './helpers/prepareEventForHandler';
 export { default as routerFactory } from './helpers/routerFactory';
 export { default as timeFormat } from './helpers/timeFormat';
 export { default as wsHandlerWrapper } from './helpers/wsHandlerWrapper';
