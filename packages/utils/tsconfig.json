@@ -15,6 +15,6 @@
     "declarationDir": "./dist/types",
     "outDir": "dist/cjs",
     "types": ["node"],
-    "lib": ["dom.iterable"]
+    "lib": ["dom", "dom.iterable"]
   }
 }
