@@ -4,11 +4,7 @@ import RoutesFolderName from '../constants/RoutesFolderName';
 import { Route } from '../types/Routes';
 import routerFactory from './routerFactory';
 
-const buildRouter = async <C extends { isDev: boolean }>(
-  ctx: C,
-  endpoint: string,
-  route: Route
-) => {
+const buildRouter = async (endpoint: string, route: Route) => {
   const routerDir = resolve(process.cwd(), RoutesFolderName, endpoint);
   const methods: any = {};
 
@@ -17,7 +13,7 @@ const buildRouter = async <C extends { isDev: boolean }>(
     methods[method] = methodHandler.default;
   }
 
-  return routerFactory(methods, ctx);
+  return routerFactory(methods);
 };
 
 export default buildRouter;

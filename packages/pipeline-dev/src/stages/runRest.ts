@@ -9,7 +9,7 @@ const runRest: Stage<Context> = async (ctx) => {
   const operations: Array<[name: string, handler: RestHandler]> = [];
 
   for await (const [endpoint, route] of Object.entries(ctx.routes)) {
-    const router: RestHandler = await buildRouter(ctx, endpoint, route);
+    const router: RestHandler = await buildRouter(endpoint, route);
     operations.push([route.name, router]);
   }
 

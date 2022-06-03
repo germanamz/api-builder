@@ -16,7 +16,6 @@ export { default as getConfig } from './helpers/getConfig';
 export { default as getRouterConfigFiles } from './helpers/getRouterConfigFiles';
 export { default as getShortMonth } from './helpers/getShortMonth';
 export { default as internalHandlerWrapper } from './helpers/internalHandlerWrapper';
-export { default as marshalEvent } from './helpers/marshalEvent';
 export { default as opWrapper } from './helpers/opWrapper';
 export { default as parseJson } from './helpers/parseJson';
 export { default as pipe } from './helpers/pipe';
