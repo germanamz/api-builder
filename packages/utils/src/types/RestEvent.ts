@@ -4,8 +4,8 @@ export type RestEvent = {
   httpMethod: string;
   headers: { [key: string]: string };
   multiValueHeaders: { [key: string]: string[] };
-  queryStringParameters: { [key: string]: string };
-  multiValueQueryStringParameters: { [key: string]: string[] };
+  queryStringParameters: { [key: string]: string } | null;
+  multiValueQueryStringParameters: { [key: string]: string[] } | null;
   requestContext: {
     accountId: string;
     apiId: string;
@@ -50,8 +50,8 @@ export type RestEvent = {
     resourcePath: string;
     stage: string;
   };
-  pathParameters: { [key: string]: string };
-  stageVariables: { [key: string]: string };
-  body: string | undefined;
+  pathParameters: { [key: string]: string } | null;
+  stageVariables: { [key: string]: string } | null;
+  body: string | null;
   isBase64Encoded: boolean;
 };
