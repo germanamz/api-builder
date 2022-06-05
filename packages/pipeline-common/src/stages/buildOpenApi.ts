@@ -119,10 +119,11 @@ const buildOpenApi: Stage<CommonPipelineContext> = async (ctx) => {
     paths,
   };
 
+  openapi.components = {
+    schemas: api.schemas,
+  };
+
   if (!isDev) {
-    openapi.components = {
-      schemas: api.schemas,
-    };
     openapi['x-amazon-apigateway-request-validator'] = 'all';
     openapi['x-amazon-apigateway-request-validators'] = {
       all: {
