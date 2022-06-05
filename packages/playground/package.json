@@ -1,6 +1,6 @@
 {
   "name": "@the-api-builder/playground",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "private": true,
   "keywords": [],
   "author": "German Meza <iam@germanamz.com>",
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/germanamz/api-builder#readme",
   "dependencies": {
-    "@the-api-builder/cli": "^0.12.0",
+    "@the-api-builder/cli": "^0.12.1",
     "@the-api-builder/utils": "^0.12.0",
     "tslib": "^2.3.1"
   },
