@@ -1,6 +1,6 @@
 {
   "name": "@the-api-builder/pipeline-build",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Now I’m the model of a modern major general / The venerated Virginian veteran whose men are all / Lining up, to put me up on a pedestal / Writin’ letters to relatives / Embellishin’ my elegance and eloquence / But the elephant is in the room / The truth is in ya face when ya hear the British cannons go / BOOM",
   "keywords": [],
   "author": "German Meza <iam@germanamz.com>",
@@ -34,10 +34,10 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@the-api-builder/pipeline-build-rest": "^0.11.0",
-    "@the-api-builder/pipeline-common": "^0.11.0",
-    "@the-api-builder/registry": "^0.11.0",
-    "@the-api-builder/utils": "^0.11.0",
+    "@the-api-builder/pipeline-build-rest": "^0.12.0",
+    "@the-api-builder/pipeline-common": "^0.12.0",
+    "@the-api-builder/registry": "^0.12.0",
+    "@the-api-builder/utils": "^0.12.0",
     "ejs": "^3.1.6",
     "fs-extra": "^10.0.0",
     "terraform-generator": "^5.1.0",
