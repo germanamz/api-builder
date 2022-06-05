@@ -1,11 +1,12 @@
 import { Stage } from '@the-api-builder/registry';
 import { router, service } from '@the-api-builder/tf-rest';
+import { resolve } from 'path';
 
 import { Context } from '../Context';
 
 const buildTerraform: Stage<Context> = async (ctx) => {
   const { api, argv, routes, openapi } = ctx;
-  const { aws, name, runtime } = api;
+  const { aws, name, runtime, output } = api;
   if (aws) {
     const { state, tags, region, prefix = '', deployment } = aws;
     const { env, stage, version } = argv;
@@ -38,6 +39,11 @@ const buildTerraform: Stage<Context> = async (ctx) => {
         vars: route.config?.variables || {},
       });
     }
+
+    generator.write({
+      dir: resolve(process.cwd(), output, 'terraform'),
+      format: true,
+    });
   }
 };
 
