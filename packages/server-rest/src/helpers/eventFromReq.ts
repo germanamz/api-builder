@@ -1,6 +1,7 @@
-import { Request } from 'express';
+import '../Request';
 
-import { RestEvent } from '../types/RestEvent';
+import { RestEvent } from '@the-api-builder/utils';
+import { Request } from 'express';
 
 const objPairs = (obj?: Record<string, any>, forceToMulti?: boolean) => {
   let single = null;
@@ -57,8 +58,7 @@ const keyValuePairsToObj = (keyValueParis?: any[]) => {
 };
 
 const eventFromReq = async (req: Request): Promise<RestEvent> => {
-  const isBase64Encoded =
-    req.headers['content-type'] === 'application/octet-stream';
+  let isBase64Encoded = false;
   const {
     single: queryStringParameters,
     multi: multiValueQueryStringParameters,
@@ -67,9 +67,22 @@ const eventFromReq = async (req: Request): Promise<RestEvent> => {
     keyValuePairsToObj(req.rawHeaders),
     true
   );
+  let body = req.body || null;
+
+  switch (req.header('content-type')) {
+    case 'application/octet-stream':
+      body = req.rawBody?.toString('base64');
+      isBase64Encoded = true;
+      break;
+
+    default:
+    case 'application/json':
+      body = req.rawBody?.toString();
+      break;
+  }
 
   return {
-    body: req.body?.toString(isBase64Encoded ? 'base64' : 'utf8') || null,
+    body,
     isBase64Encoded,
     resource: req.path,
     pathParameters: Object.keys(req.params).length ? req.params : null,

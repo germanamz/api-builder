@@ -1,7 +1,6 @@
+import { HandlerResponse, RestHandler } from '@the-api-builder/utils';
 import { Request, Response } from 'express';
 
-import { HandlerResponse } from '../types/HandlerResponse';
-import { RestHandler } from '../types/RestHandler';
 import eventFromReq from './eventFromReq';
 
 const opWrapper =
@@ -14,7 +13,6 @@ const opWrapper =
     )) as HandlerResponse;
     res.status(statusCode);
     res.set({
-      'Content-Type': 'application/json',
       ...headers,
     });
     res.send(body);

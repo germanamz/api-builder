@@ -9,7 +9,6 @@ export {
 } from './constants/SupportedHttpMethods';
 export { default as buildRouter } from './helpers/buildRouter';
 export { default as entriesToObject } from './helpers/entriesToObject';
-export { default as eventFromReq } from './helpers/eventFromReq';
 export { default as filterExternals } from './helpers/filterExternals';
 export { default as genWsEvent } from './helpers/genWsEvent';
 export { default as genWsReqContext } from './helpers/genWsReqContext';
@@ -17,7 +16,6 @@ export { default as getConfig } from './helpers/getConfig';
 export { default as getRouterConfigFiles } from './helpers/getRouterConfigFiles';
 export { default as getShortMonth } from './helpers/getShortMonth';
 export { default as internalHandlerWrapper } from './helpers/internalHandlerWrapper';
-export { default as opWrapper } from './helpers/opWrapper';
 export { default as parseJson } from './helpers/parseJson';
 export { default as pipe } from './helpers/pipe';
 export { default as prepareEventForHandler } from './helpers/prepareEventForHandler';

@@ -4,9 +4,11 @@ import entriesToObject from './entriesToObject';
 
 const prepareEventForHandler = (event: RestEvent): RestHandlerEvent => {
   const preparedEvent: RestHandlerEvent = { ...event };
+  const contentType =
+    event.headers['content-type'] || event.headers['Content-Type'];
 
   if (event.body) {
-    switch (event.headers['content-type']) {
+    switch (contentType) {
       case 'application/json':
         preparedEvent.body = JSON.parse(event.body);
         break;
