@@ -1,4 +1,3 @@
-import { resolve } from 'path';
 import Types, { EntryObject } from 'webpack';
 
 export interface CommonOpts {
