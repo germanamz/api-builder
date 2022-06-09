@@ -2,7 +2,6 @@ import {
   Errno,
   ErrnoErrors,
   ErrnoErrorsMessages,
-  genError,
 } from '@the-api-builder/errno';
 
 import AsResponseObject from '../constants/AsResponseObject';
