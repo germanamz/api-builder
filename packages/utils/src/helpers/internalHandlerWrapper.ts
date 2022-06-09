@@ -1,8 +1,4 @@
-import {
-  Errno,
-  ErrnoErrors,
-  ErrnoErrorsMessages,
-} from '@the-api-builder/errno';
+import { Errno, ErrnoErrors, genError } from '@the-api-builder/errno';
 
 import AsResponseObject from '../constants/AsResponseObject';
 import { HandlerResponse } from '../types/HandlerResponse';
@@ -46,17 +42,8 @@ const internalHandlerWrapper =
 
       console.error(e);
 
-      const errnoInstance: any = new Errno(
-        ErrnoErrorsMessages[ErrnoErrors.UNKNOWN],
-        ErrnoErrors.UNKNOWN
-      );
-
-      console.log('errnoInstance', errnoInstance);
-      // eslint-disable-next-line no-proto
-      console.log('errnoInstance', errnoInstance.__proto__);
-
       return {
-        body: JSON.stringify(errnoInstance.toJSON()),
+        body: JSON.stringify(genError(ErrnoErrors.UNKNOWN).toJSON()),
         statusCode: 500,
         headers: {
           'Content-Type': 'application/json',
