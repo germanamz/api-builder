@@ -40,6 +40,7 @@
     "@the-api-builder/utils": "^0.14.1",
     "ejs": "^3.1.6",
     "fs-extra": "^10.0.0",
+    "ts-loader": "^9.3.0",
     "tslib": "^2.3.1",
     "webpack": "^5.67.0"
   }
