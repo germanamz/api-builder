@@ -28,7 +28,7 @@ function common({
 }: CommonOpts): Types.Configuration {
   return {
     node: false,
-    target: ['node16', 'es2018'],
+    target: 'node',
     devtool: 'inline-source-map',
     externalsPresets: {
       node: true,
@@ -54,16 +54,9 @@ function common({
     module: {
       rules: [
         {
-          test: /\.[jt]s$/,
+          test: /\.ts$/,
           exclude: /node_modules/,
-          use: [
-            {
-              loader: 'ts-loader',
-              options: {
-                configFile: resolve(process.cwd(), 'tsconfig.json'),
-              },
-            },
-          ],
+          use: 'ts-loader',
         },
       ],
     },

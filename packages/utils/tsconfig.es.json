@@ -1,7 +1,6 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "target": "es5",
     "module": "esnext",
     "moduleResolution": "node",
     "declaration": false,
