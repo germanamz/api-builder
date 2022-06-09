@@ -59,6 +59,8 @@ const router = ({
     role,
     lambda,
     permission,
+    shortName,
+    fullName,
   };
 };
 

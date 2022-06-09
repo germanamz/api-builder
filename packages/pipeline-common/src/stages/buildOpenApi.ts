@@ -74,7 +74,9 @@ const getCors = (isDev: boolean) => {
 };
 
 const buildOpenApi: Stage<CommonPipelineContext> = async (ctx) => {
-  const { api, package: packageJson, routes, isDev } = ctx;
+  const { api, package: packageJson, routes, isDev, argv } = ctx;
+  const { env } = argv;
+  const { aws } = api;
   const paths: {
     [path: string]: {
       [method in Lowercase<SupportedHttpMethodsSet | 'options'>]: any;
@@ -98,12 +100,13 @@ const buildOpenApi: Stage<CommonPipelineContext> = async (ctx) => {
           ...methodConfig,
           operationId: name,
         };
-      } else {
+      } else if (aws) {
+        const { prefix } = aws;
         paths[routePath][lowerMethod] = {
           'x-amazon-apigateway-request-validator': 'all',
           ...methodConfig,
           'x-amazon-apigateway-integration': getLambdaIntegration(
-            `${api.name}-${name}-${process.env.NODE_ENV}`,
+            `${prefix}-${name}-${env}`,
             api
           ),
         };

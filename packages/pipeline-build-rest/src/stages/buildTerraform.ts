@@ -23,12 +23,13 @@ const buildTerraform: Stage<Context> = async (ctx) => {
       env,
       stage,
     });
+    const routersShortNames = [];
 
     for await (const endpoint of endpoints) {
       const route = routes[endpoint];
-      router({
+      const { shortName } = router({
         generator,
-        name,
+        name: route.name,
         env,
         prefix,
         statements: route.config?.policyStatements || [],
@@ -38,6 +39,12 @@ const buildTerraform: Stage<Context> = async (ctx) => {
         api: apiResource,
         vars: route.config?.variables || {},
       });
+      routersShortNames.push(shortName);
+    }
+
+    if (runtime === 'docker') {
+      console.log('Make sure these repositories are created before applying');
+      console.log(routersShortNames.join('\n'));
     }
 
     generator.write({

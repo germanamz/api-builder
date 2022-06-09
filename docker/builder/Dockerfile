@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/nodejs:14
+FROM public.ecr.aws/lambda/nodejs:16
 
 COPY zip-routers.sh /zip-routers.sh
 RUN yum install zip openssl -y

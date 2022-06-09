@@ -32,12 +32,12 @@ const lambda = ({
 
   let lambdaConfig;
   if (type === 'docker') {
-    const ercRepo = generator.resource('aws_ecr_repository', name, {
+    const ercRepo = generator.data('aws_ecr_repository', name, {
       name: shortName,
     });
     const artifactImage = generator.data('aws_ecr_image', name, {
       repository_name: ercRepo.attr('name'),
-      image_tag: version,
+      image_tag: version || 'latest',
     });
     lambdaConfig = {
       image_uri: `${ercRepo.attr('repository_url')}@${artifactImage.id}`,
@@ -63,7 +63,7 @@ const lambda = ({
       s3_key: artifactObject.attr('key'),
       source_code_hash: checksumObject.attr('body'),
       package_type: 'Zip',
-      runtime: 'nodejs14.x',
+      runtime: 'nodejs16.x',
       handler: 'index.handler',
     };
   } else {
@@ -79,7 +79,7 @@ const lambda = ({
     depends_on: list(api),
   };
 
-  if (vars) {
+  if (vars && Object.keys(vars).length) {
     lambdaOptions.environment = {
       variables: map(vars || {}),
     };

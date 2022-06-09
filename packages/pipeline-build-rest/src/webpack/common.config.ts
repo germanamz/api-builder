@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import Types, { EntryObject } from 'webpack';
 
 export interface CommonOpts {
@@ -27,7 +28,7 @@ function common({
 }: CommonOpts): Types.Configuration {
   return {
     node: false,
-    target: 'node',
+    target: ['node16', 'es2018'],
     devtool: 'inline-source-map',
     externalsPresets: {
       node: true,
@@ -53,9 +54,16 @@ function common({
     module: {
       rules: [
         {
-          test: /\.ts$/,
+          test: /\.[jt]s$/,
           exclude: /node_modules/,
-          use: 'ts-loader',
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                configFile: resolve(process.cwd(), 'tsconfig.json'),
+              },
+            },
+          ],
         },
       ],
     },

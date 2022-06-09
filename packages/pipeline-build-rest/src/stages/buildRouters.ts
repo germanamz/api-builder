@@ -71,6 +71,13 @@ const buildRouters: Stage<Context> = async (ctx) => {
       }
     );
   }
+
+  return {
+    argv: {
+      ...argv,
+      version,
+    },
+  };
 };
 
 export default buildRouters;
