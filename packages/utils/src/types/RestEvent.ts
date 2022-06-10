@@ -2,8 +2,8 @@ export type RestEvent = {
   resource: string;
   path: string;
   httpMethod: string;
-  headers: { [key: string]: string };
-  multiValueHeaders: { [key: string]: string[] };
+  headers: { [key: string]: string } | null;
+  multiValueHeaders: { [key: string]: string[] } | null;
   queryStringParameters: { [key: string]: string } | null;
   multiValueQueryStringParameters: { [key: string]: string[] } | null;
   requestContext: {
